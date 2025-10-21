@@ -1,0 +1,478 @@
+{
+  "MII21-1203": {
+    "prerequisites": [
+      {
+        "code": "MII21-1201",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-1204": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-1602": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2201": {
+    "prerequisites": [
+      {
+        "code": "MII21-1006",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2501": {
+    "prerequisites": [
+      {
+        "code": "MII21-1006",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2601": {
+    "prerequisites": [
+      {
+        "code": "MII21-1006",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2401": {
+    "prerequisites": [
+      {
+        "code": "MII21-1002",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2502": {
+    "prerequisites": [
+      {
+        "code": "MII21-2501",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2603": {
+    "prerequisites": [
+      {
+        "code": "MII21-2602",
+        "is_corequisite": true
+      },
+      {
+        "code": "MII21-2601",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2602": {
+    "prerequisites": [
+      {
+        "code": "MII21-1601",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2504": {
+    "prerequisites": [
+      {
+        "code": "MII21-2503",
+        "is_corequisite": true
+      },
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2402": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2202": {
+    "prerequisites": [
+      {
+        "code": "MII21-1002",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-1006",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2203": {
+    "prerequisites": [
+      {
+        "code": "MII21-1005",
+        "is_corequisite": true
+      },
+      {
+        "code": "MII21-1001",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2209": {
+    "prerequisites": [
+      {
+        "code": "MII21-1006",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3401": {
+    "prerequisites": [
+      {
+        "code": "MII21-2402",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3501": {
+    "prerequisites": [
+      {
+        "code": "MII21-2504",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-4001": {
+    "prerequisites": [
+      {
+        "code": "MII21-3002",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-4003": {
+    "prerequisites": [
+      {
+        "code": "MII21-4001",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-4002": {
+    "prerequisites": [
+      {
+        "code": "MII21-4001",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2204": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2206": {
+    "prerequisites": [
+      {
+        "code": "MII21-2204",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-2402",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3201": {
+    "prerequisites": [
+      {
+        "code": "MII21-2203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3202": {
+    "prerequisites": [
+      {
+        "code": "MII21-2203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3203": {
+    "prerequisites": [
+      {
+        "code": "MII21-2001",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3206": {
+    "prerequisites": [
+      {
+        "code": "MII21-2201",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3207": {
+    "prerequisites": [
+      {
+        "code": "MII21-2202",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2410": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-2404": {
+    "prerequisites": [
+      {
+        "code": "MII21-1002",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2405": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-2402",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3402": {
+    "prerequisites": [
+      {
+        "code": "MII21-1007",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3403": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3404": {
+    "prerequisites": [
+      {
+        "code": "MII21-2402",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3405": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3406": {
+    "prerequisites": [
+      {
+        "code": "MII21-1201",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3407": {
+    "prerequisites": [
+      {
+        "code": "MII21-2401",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2505": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2506": {
+    "prerequisites": [
+      {
+        "code": "MII21-2601",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-2503",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3512": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3503": {
+    "prerequisites": [
+      {
+        "code": "MII21-2501",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3504": {
+    "prerequisites": [
+      {
+        "code": "MII21-2503",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3505": {
+    "prerequisites": [
+      {
+        "code": "MII21-2503",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3506": {
+    "prerequisites": [
+      {
+        "code": "MII21-2503",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3507": {
+    "prerequisites": [
+      {
+        "code": "MII21-2501",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3508": {
+    "prerequisites": [
+      {
+        "code": "MII21-2402",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3511": {
+    "prerequisites": [
+      {
+        "code": "MII21-1203",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3509": {
+    "prerequisites": [
+      {
+        "code": "MII21-2503",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2607": {
+    "prerequisites": [
+      {
+        "code": "MII21-2501",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2609": {
+    "prerequisites": [
+      {
+        "code": "MII21-1601",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-2602",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2610": {
+    "prerequisites": [
+      {
+        "code": "MII21-2601",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-2611": {
+    "prerequisites": [
+      {
+        "code": "MII21-1602",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3601": {
+    "prerequisites": [
+      {
+        "code": "MII21-1601",
+        "is_corequisite": false
+      },
+      {
+        "code": "MII21-2602",
+        "is_corequisite": true
+      }
+    ]
+  },
+  "MII21-3602": {
+    "prerequisites": [
+      {
+        "code": "MII21-2209",
+        "is_corequisite": false
+      }
+    ]
+  },
+  "MII21-3608": {
+    "prerequisites": [
+      {
+        "code": "MII21-2209",
+        "is_corequisite": false
+      }
+    ]
+  }
+}
