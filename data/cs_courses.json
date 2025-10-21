@@ -4,462 +4,504 @@
     "course_name_id": "Agama Islam",
     "course_name_en": "Islam",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2006",
     "course_name_id": "Agama Katolik",
     "course_name_en": "Chatolic Religion",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2007",
     "course_name_id": "Agama Kristen",
     "course_name_en": "Christianity",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2008",
     "course_name_id": "Agama Hindu",
     "course_name_en": "Hinduism",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2009",
     "course_name_id": "Agama Buddha",
     "course_name_en": "Buddhism",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2010",
     "course_name_id": "Agama Konghucu",
     "course_name_en": "Konghuchu/Confucian",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2013",
     "course_name_id": "Bahasa Indonesia",
     "course_name_en": "Indonesian Language",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [1]
   },
   {
     "course_code": "UNU22-2011",
     "course_name_id": "Pancasila",
     "course_name_en": "Pancasila",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [2]
   },
   {
     "course_code": "UNU22-2012",
     "course_name_id": "Kewarganegaraan",
     "course_name_en": "Citizenship",
     "sks": 2,
-    "type": "Wajib Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [2]
   },
   {
     "course_code": "UNU22-2001",
     "course_name_id": "KKN PPM",
     "course_name_en": "Community Service Development",
     "sks": 4,
-    "type": "Wajib Universitas"
-  },
-  {
-    "course_code": "UNU22-2002",
-    "course_name_id": "Komunikasi Masyarakat",
-    "course_name_en": "Public Communication",
-    "sks": 2,
-    "type": "Pilihan Universitas"
-  },
-  {
-    "course_code": "UNU22-2004",
-    "course_name_id": "Penerapan Manajemen Pengetahuan",
-    "course_name_en": "Applied of Knowledge Management",
-    "sks": 2,
-    "type": "Pilihan Universitas"
+    "type": "Wajib Universitas",
+    "semesters": [6]
   },
   {
     "course_code": "MFF-1011",
     "course_name_id": "Fisika Dasar 1",
     "course_name_en": "Basic Physics 1",
     "sks": 3,
-    "type": "Wajib Fakultas"
+    "type": "Wajib Fakultas",
+    "semesters": [1]
   },
   {
     "course_code": "MKK-1101",
     "course_name_id": "Kimia Dasar 1",
     "course_name_en": "Basic Chemistry 1",
     "sks": 3,
-    "type": "Wajib Fakultas"
+    "type": "Wajib Fakultas",
+    "semesters": [1]
   },
   {
     "course_code": "MMM-1101",
     "course_name_id": "Kalkulus 1",
     "course_name_en": "Calculus 1",
     "sks": 3,
-    "type": "Wajib Fakultas"
+    "type": "Wajib Fakultas",
+    "semesters": [1]
   },
   {
     "course_code": "MII21-1201",
     "course_name_id": "Pemrograman",
     "course_name_en": "Programming",
     "sks": 3,
-    "type": "Wajib Fakultas"
+    "type": "Wajib Fakultas",
+    "semesters": [1]
   },
   {
     "course_code": "MII21-1202",
     "course_name_id": "Praktikum Pemrograman",
     "course_name_en": "Lab work in Programming",
     "sks": 1,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [1]
   },
   {
     "course_code": "MII21-1002",
     "course_name_id": "Logika Informatika",
     "course_name_en": "Logic for Computer Science",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [1]
   },
   {
     "course_code": "MII21-1001",
     "course_name_id": "Aljabar Linier Fundamental",
     "course_name_en": "Elementary Linear Algebra",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [1]
   },
   {
     "course_code": "MII21-1203",
     "course_name_id": "Algoritma dan Struktur Data",
     "course_name_en": "Algorithms and Data Structures",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1004",
     "course_name_id": "Bahasa Inggris",
     "course_name_en": "English",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1005",
     "course_name_id": "Integral dan Persamaan Diferensial",
     "course_name_en": "Integral and Differential Equations",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1006",
     "course_name_id": "Matematika Diskrit",
     "course_name_en": "Discrete Mathematics",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1601",
     "course_name_id": "Organisasi dan Arsitektur Komputer",
     "course_name_en": "Organization and Computer Architecture",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1007",
     "course_name_id": "Pengantar Statistika",
     "course_name_en": "Introduction to Statistics",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1204",
     "course_name_id": "Praktikum Algoritma dan Struktur Data",
     "course_name_en": "Lab work in Algorithms and Data Structures",
     "sks": 1,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-1602",
     "course_name_id": "Sistem Digital",
     "course_name_en": "Digital Systems",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2]
   },
   {
     "course_code": "MII21-2201",
     "course_name_id": "Analisis Algoritma dan Kompleksitas",
     "course_name_en": "Analysis of Algorithm and Complexity",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2501",
     "course_name_id": "Basis Data",
     "course_name_en": "Database",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2601",
     "course_name_id": "Jaringan Komputer",
     "course_name_en": "Computer Network",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2401",
     "course_name_id": "Kecerdasan Artifisial",
     "course_name_en": "Artificial Intelligence",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2502",
     "course_name_id": "Praktikum Basis Data",
     "course_name_en": "Database Lab work",
     "sks": 1,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2603",
     "course_name_id": "Praktikum Sistem Komputer dan Jaringan",
     "course_name_en": "Computer System and Network Lab work",
     "sks": 1,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2001",
     "course_name_id": "Probabilitas dan Proses Stokastika",
     "course_name_en": "Probability and Stochastic Processes",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2602",
     "course_name_id": "Sistem Operasi",
     "course_name_en": "Operating Systems",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2010",
     "course_name_id": "Penulisan Akademik dan Etika",
     "course_name_en": "Academic Writing & Ecthics",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2003",
     "course_name_id": "Pengembangan Startup Digital",
     "course_name_en": "Startup Digital Development",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2, 4]
   },
   {
     "course_code": "MII21-2503",
     "course_name_id": "Metode Rekayasa Perangkat Lunak",
     "course_name_en": "Software Engineering Methods",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2504",
     "course_name_id": "Workshop Implementasi Rancangan Perangkat Lunak",
     "course_name_en": "Workshop on Implementing Software Design",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2402",
     "course_name_id": "Pembelajaran Mesin",
     "course_name_en": "Machine Learning",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2202",
     "course_name_id": "Bahasa dan Otomata",
     "course_name_en": "Languages dan Automata",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2203",
     "course_name_id": "Metode Numerik",
     "course_name_en": "Numerical Methods",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [2, 4]
   },
   {
     "course_code": "MII21-2209",
     "course_name_id": "Kriptografi dan Keamanan Informasi",
     "course_name_en": "Cryptography and Network Security",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-3401",
     "course_name_id": "Pembelajaran Mesin Mendalam",
     "course_name_en": "Deep Learning",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3501",
     "course_name_id": "Proyek Rekayasa Perangkat Lunak",
     "course_name_en": "Software Engineering Project",
     "sks": 3,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3002",
     "course_name_id": "Metodologi Penelitian Ilmu Komputer",
     "course_name_en": "Research Method of Computer Science",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-4001",
     "course_name_id": "Proposal Skripsi",
     "course_name_en": "Proposal of Undergraduate Thesis",
     "sks": 2,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [7]
   },
   {
     "course_code": "MII21-4003",
     "course_name_id": "Seminar Skripsi",
     "course_name_en": "Seminar of Undergraduate Thesis",
     "sks": 1,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [7, 8]
   },
   {
     "course_code": "MII21-4002",
     "course_name_id": "Skripsi",
     "course_name_en": "Undergraduate Thesis",
     "sks": 6,
-    "type": "Wajib Program Studi Ilmu Komputer"
+    "type": "Wajib Program Studi Ilmu Komputer",
+    "semesters": [8]
   },
   {
     "course_code": "MII21-2204",
     "course_name_id": "Pengolahan Citra Digital",
     "course_name_en": "Digital Image Processing",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-3208",
     "course_name_id": "Computational Thinking",
     "course_name_en": "Computational Thinking",
     "sks": 2,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [3, 5]
   },
   {
     "course_code": "MII21-2205",
     "course_name_id": "Grafika Komputer",
     "course_name_en": "Computer Graphics",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2206",
     "course_name_id": "Penglihatan Komputer dan Analisis Citra",
     "course_name_en": "Computer Vision and Image Analysis",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-3201",
     "course_name_id": "Metode Optimasi",
     "course_name_en": "Optimization Methods",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3202",
     "course_name_id": "Sains Manajemen",
     "course_name_en": "Management Science",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3203",
     "course_name_id": "Simulasi Sains",
     "course_name_en": "Science Simulation",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3204",
     "course_name_id": "Tren Penelitian Algoritma dan Komputasi",
     "course_name_en": "Research Trends in Algorithm and Computation",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [5, 7]
   },
   {
     "course_code": "MII21-3206",
     "course_name_id": "Algoritma Terdistribusi dan Pemrograman Paralel",
     "course_name_en": "Distributed Algorithm and Parallel Programming",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3207",
     "course_name_id": "Verifikasi Formal",
     "course_name_en": "Formal Verification",
     "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
-  },
-  {
-    "course_code": "MII21-3205",
-    "course_name_id": "Kapita Selekta Algoritma dan Komputasi",
-    "course_name_en": "Special Topic on Algorithm and Computation",
-    "sks": 3,
-    "type": "Pilihan Lab Algoritma dan Komputasi"
+    "type": "Pilihan Lab Algoritma dan Komputasi",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-2410",
     "course_name_id": "Tren Penelitian Sistem Cerdas",
     "course_name_en": "Research Trends on Artificial Intelligence",
     "sks": 2,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2404",
     "course_name_id": "Logika Fuzzy",
     "course_name_en": "Fuzzy Logic",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-2405",
     "course_name_id": "Pengenalan Pola",
     "course_name_en": "Pattern Recognition",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-3402",
     "course_name_id": "Algoritma Genetika",
     "course_name_en": "Genetic Algorithm",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3403",
     "course_name_id": "Bioinformatika",
     "course_name_en": "Bioinformatics",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3404",
     "course_name_id": "Pemrosesan Bahasa Alami",
     "course_name_en": "Natural Language Processing",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3405",
@@ -473,629 +515,207 @@
     "course_name_id": "Sistem Pendukung Keputusan",
     "course_name_en": "Decision Support Systems",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3407",
     "course_name_id": "Kapita Selekta Sistem Cerdas",
     "course_name_en": "Special Topic on Intelligent Systems",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-2505",
     "course_name_id": "Pengembangan UI/UX & Front-end",
     "course_name_en": "Frontend and UI/UX development",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [3]
   },
   {
     "course_code": "MII21-2506",
     "course_name_id": "Pengembangan Perangkat Lunak Scalable",
     "course_name_en": "Scalable Software Development",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-3512",
     "course_name_id": "Pengembangan Aplikasi Mobile",
     "course_name_en": "Mobile Application Development",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [4]
   },
   {
     "course_code": "MII21-3502",
     "course_name_id": "Web Semantik",
     "course_name_en": "Semantic Web",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3503",
     "course_name_id": "Temu Kembali Informasi",
     "course_name_en": "Information Retrieval System",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3504",
     "course_name_id": "Pengantar Penjaminan Kualitas Perangkat Lunak",
     "course_name_en": "Introduction to Software Quality Assurance",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3510",
     "course_name_id": "Tren Penelitian Rekayasa Perangkat Lunak dan Data",
     "course_name_en": "Research Trends in Software and Data Engineering",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [5]
   },
   {
     "course_code": "MII21-3505",
     "course_name_id": "Audit dan Forensik Digital",
     "course_name_en": "Audit and Digital Forensic",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3506",
     "course_name_id": "Manajemen Proyek Teknologi Informasi",
     "course_name_en": "Information Technology Project Management",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3507",
     "course_name_id": "Analisis Big Data",
     "course_name_en": "Big Data Analytics",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3508",
     "course_name_id": "Penambangan Data",
     "course_name_en": "Data Mining",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3511",
     "course_name_id": "Pemodelan Jaringan Komunitas Digital",
     "course_name_en": "Digital Society Network Modelling",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3509",
     "course_name_id": "Kapita Selekta Lab. RPLD",
     "course_name_en": "Special Topic on Software Engineering and Data",
     "sks": 3,
-    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data"
+    "type": "Pilihan Lab Rekayasa Perangkat Lunak dan Data",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-2605",
     "course_name_id": "Perkembangan Terbaru Penelitian Sistem Komputer dan Jaringan",
     "course_name_en": "Computer Systems and Network Research Trends",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [3,5,7]
   },
   {
     "course_code": "MII21-2606",
     "course_name_id": "Internet of Things dan Aplikasinya",
     "course_name_en": "Internet of Things and Applications",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [3,5,7]
   },
   {
     "course_code": "MII21-2607",
     "course_name_id": "Arsitektur dan Teknologi Data Besar",
     "course_name_en": "Big Data Architecture and Infrastructure",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [4, 6]
   },
   {
     "course_code": "MII21-2608",
     "course_name_id": "Kapita Selekta Sistem Komputer dan Jaringan",
     "course_name_en": "Special Topic on Computer and Network Systems",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [4, 6]
   },
   {
     "course_code": "MII21-2609",
     "course_name_id": "Pengembangan Pusat Komputasi Data",
     "course_name_en": "Development of Computing Data Centre",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [4, 6]
   },
   {
     "course_code": "MII21-2610",
     "course_name_id": "Komputasi Awan",
     "course_name_en": "Cloud Computing",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [4, 6]
   },
   {
     "course_code": "MII21-2611",
     "course_name_id": "Telekomunikasi Generasi Lanjut",
     "course_name_en": "Next Generation Networks",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [4, 6]
   },
   {
     "course_code": "MII21-3601",
     "course_name_id": "Arsitektur dan Infrastruktur Berkinerja Tinggi",
     "course_name_en": "High Performance Architecture and Infrastructure",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [5, 7]
   },
   {
     "course_code": "MII21-3602",
     "course_name_id": "Keamanan Sistem dan Siber",
     "course_name_en": "Cyber System Security",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [5, 7]
   },
   {
     "course_code": "MII21-3603",
     "course_name_id": "Lingkungan Cerdas dan Intelijen",
     "course_name_en": "Smart and Intelligent Environment",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [5, 7]
   },
   {
     "course_code": "MII21-3608",
     "course_name_id": "Pengantar Blockchain",
     "course_name_en": "Pengantar Blockchain",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Komputer dan Jaringan"
-  },
-  {
-    "course_code": "MII21-3010",
-    "course_name_id": "Internship: Spesifikasi Masalah dan Deskripsi Prototipe",
-    "course_name_en": "Internship: Prolem Specification and Prototype Description",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3011",
-    "course_name_id": "Internship: Pengembangan Fitur dan Modul Proyek",
-    "course_name_en": "Internship: Development of Project Features and Modules",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3012",
-    "course_name_id": "Internship: Sampel dan Definisi Dataset Produk",
-    "course_name_en": "Internship: Sample and Definition of Internship Dataset",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3013",
-    "course_name_id": "Internship: Implementasi Prototipe Produk",
-    "course_name_en": "Internship: Implementation of Product Protoype",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3014",
-    "course_name_id": "Internship: Pengembangan Back-end",
-    "course_name_en": "Internship: Development of Back-end",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3015",
-    "course_name_id": "Internship: Pengujian Unit dan Modul Proyek",
-    "course_name_en": "Internship: Testing of Project Units & Modules",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3016",
-    "course_name_id": "Internship: Pengujian Integrasi dan Sistem",
-    "course_name_en": "Internship: System and Integrating Testing",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3017",
-    "course_name_id": "Industri Kreatif dan Game Digital",
-    "course_name_en": "Creative Industry and Digital Game",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Internship"
-  },
-  {
-    "course_code": "MII21-3020",
-    "course_name_id": "Asistensi Mengajar: Proposal Tutorial Tren Pengetahuan Digital",
-    "course_name_en": "Teaching Assistant: Proposal of Digital Knowledge Trends",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Asistensi Mengajar"
-  },
-  {
-    "course_code": "MII21-3021",
-    "course_name_id": "Asistensi Mengajar: Rancangan Tutorial Modul Digital Interatif",
-    "course_name_en": "Teaching Assistant: Design Tutorial of Interactive Digital Modules",
-    "sks": 5,
-    "type": "Pilihan Kegiatan MBKM Asistensi Mengajar"
-  },
-  {
-    "course_code": "MII21-3022",
-    "course_name_id": "Asistensi Mengajar: Asistensi Transfer Tren Pengetahuan Digital",
-    "course_name_en": "Teaching Assistant: Assistance Transfered of Digital Knowlegde Trend",
-    "sks": 5,
-    "type": "Pilihan Kegiatan MBKM Asistensi Mengajar"
-  },
-  {
-    "course_code": "MII21-3023",
-    "course_name_id": "Asistensi Mengajar: Kelas Seminar Transformasi Pengetahuan Digital",
-    "course_name_en": "Teaching Assistant: Seminar Class of Digital Knowledge Transformation",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Asistensi Mengajar"
-  },
-  {
-    "course_code": "MII21-3030",
-    "course_name_id": "Proyek Independen: Spesifikasi Proyek Independen",
-    "course_name_en": "Independent Project: Specification of Independen Project",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Studi/Proyek Independen"
-  },
-  {
-    "course_code": "MII21-3031",
-    "course_name_id": "Proyek Independen: Proposal Proyek Independen",
-    "course_name_en": "Independent Project: Proposal of Independent Project",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Studi/Proyek Independen"
-  },
-  {
-    "course_code": "MII21-3032",
-    "course_name_id": "Proyek Independen: Sampel dan Definisi Dataset Proyek",
-    "course_name_en": "Independent Project: Sample and Definition of Dataset Project",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Studi/Proyek Independen"
-  },
-  {
-    "course_code": "MII21-3033",
-    "course_name_id": "Proyek Independen: Implementasi Proyek Independen",
-    "course_name_en": "Independent Project: Implementation of Independent Project",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Studi/Proyek Independen"
-  },
-  {
-    "course_code": "MII21-3034",
-    "course_name_id": "Proyek Independen: Kelas Seminar Proyek Independen",
-    "course_name_en": "Independent Project: Seminar Class of Independen Project",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Studi/Proyek Independen"
-  },
-  {
-    "course_code": "MII21-3040",
-    "course_name_id": "Riset: Spesifikasi Riset Inovasi Mahasiswa",
-    "course_name_en": "Research: Specification of Student Inovation Research",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-3041",
-    "course_name_id": "Riset: Proposal Riset Inovasi Mahasiswa",
-    "course_name_en": "Research: Proposal of Student Inovation Research",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-3042",
-    "course_name_id": "Riset: Sampel dan Definisi Dataset Penelitian",
-    "course_name_en": "Research: Sample and Definition Dataset Research",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-3043",
-    "course_name_id": "Riset: Implementasi Riset Inovasi Mahasiswa",
-    "course_name_en": "Research: Implementation of Student Inovation Research",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-3044",
-    "course_name_id": "Riset: Kelas Seminar Riset Internship",
-    "course_name_en": "Research: Review of Intership Research",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-30450",
-    "course_name_id": "Poster Ilmiah Bidang Ilmu Komputer",
-    "course_name_en": "Scholarly Poster in Computer Science",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-30451",
-    "course_name_id": "Publikasi Akademik Bidang Ilmu Komputer",
-    "course_name_en": "Academic Publication in Computer Science",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-30452",
-    "course_name_id": "Publikasi ilmiah Bereputasi International",
-    "course_name_en": "International Reputed Scientific Publication",
-    "sks": 5,
-    "type": "Pilihan Kegiatan MBKM Penelitian/Riset"
-  },
-  {
-    "course_code": "MII21-3050",
-    "course_name_id": "Desa Binaan: Spesifikasi Proyek Inovasi Urban",
-    "course_name_en": "Village Project: Specification of Urban Inovation Project",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek di Desa/KKNT"
-  },
-  {
-    "course_code": "MII21-3051",
-    "course_name_id": "Desa Binaan: Proposal Proyek Inovasi Urban",
-    "course_name_en": "Village Project: Proposal of Urban Inovation Project",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Proyek di Desa/KKNT"
-  },
-  {
-    "course_code": "MII21-3052",
-    "course_name_id": "Desa Binaan: Implementasi Proyek Inovasi Urban",
-    "course_name_en": "Village Project: Implementation of Urban Inovation Project",
-    "sks": 6,
-    "type": "Pilihan Kegiatan MBKM Proyek di Desa/KKNT"
-  },
-  {
-    "course_code": "MII21-3053",
-    "course_name_id": "Desa Binaan: Kelas Seminar Proyek Inovasi Urban",
-    "course_name_en": "Village Project: Seminar Class of Urban Inovation Project",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Proyek di Desa/KKNT"
-  },
-  {
-    "course_code": "MII21-3060",
-    "course_name_id": "Kewirausahaan: Proposal Rencana Bisnis & Startup",
-    "course_name_en": "Enterpreunership: Proposal of Bussiness Plan & Startup",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3061",
-    "course_name_id": "Kewirausahaan: Modul Desain Produk dan Jasa Startup",
-    "course_name_en": "Enterpreunership: Specification of Product and Service",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3062",
-    "course_name_id": "Kewirausahaan: Modul Prototipe Produk Inovatif",
-    "course_name_en": "Enterpreunership: Module of Innovative Product Prototype",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3063",
-    "course_name_id": "Kewirausahaan: Modul Anggaran dan Keuangan Startup",
-    "course_name_en": "Enterpreunership: Module of Startup Financial and Budgeting",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3064",
-    "course_name_id": "Kewirausahaan: Modul Laporan Keuangan Startup",
-    "course_name_en": "Enterpreunership: Module of Startup Financial Report",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3065",
-    "course_name_id": "Kewirausahaan: Modul Pemasaran dan Penjualan Usaha",
-    "course_name_en": "Enterpreunership: Module of Digital Marketing and Payment",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3066",
-    "course_name_id": "Kewirausahaan: Modul Laporan Pemasaran & Analisis",
-    "course_name_en": "Enterpreunership: Module of Marketing Analytics and Report",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3067",
-    "course_name_id": "Kewirausahaan: Modul Peran dan Manajemen Super Tim",
-    "course_name_en": "Enterpreunership: Module of Oustanding Team Management",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3068",
-    "course_name_id": "Kewirausahaan: Modul Kepemilikan dan Badan Hukum",
-    "course_name_en": "Enterpreunership: Module of Ownership and Legal Entity",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3069",
-    "course_name_id": "Kewirausahaan: Modul Etika dan Aspek Legal dalam Bisnis",
-    "course_name_en": "Enterpreunership: Module of Ethics and Legal Aspects in Business",
-    "sks": 4,
-    "type": "Pilihan Kegiatan MBKM Kewirausahaan"
-  },
-  {
-    "course_code": "MII21-3070",
-    "course_name_id": "Proyek Kemanusiaan: Tutorial Tanggap Darurat Kebencanaan",
-    "course_name_en": "Humanity Project: Preparedness and Quick Disaster Response",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3071",
-    "course_name_id": "Proyek Kemanusiaan: Tutorial Pemulihan Kebencanaan",
-    "course_name_en": "Humanity Project: Disaster Recovery Management",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3072",
-    "course_name_id": "Proyek Kemanusiaan: Tutorial Manajemen Posko & Logistik",
-    "course_name_en": "Humanity Project: Tutorial Command Posts & Logistic Management",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3073",
-    "course_name_id": "Proyek Kemanusiaan: Modul Digital Penanggulangan Bencana",
-    "course_name_en": "Humanity Project: A Digital Module of Disaster Management",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3074",
-    "course_name_id": "Proyek Kemanusiaan: Proposal Proyek Kemanusiaan",
-    "course_name_en": "Humanity Project: Proposal of Volunteer Project",
-    "sks": 2,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3075",
-    "course_name_id": "Proyek Kemanusiaan: Implementasi Proyek Kemanusian",
-    "course_name_en": "Humanity Project: Implementatio of Volunteer Project",
-    "sks": 5,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-3076",
-    "course_name_id": "Proyek Kemanusiaan: Kelas Seminar Proyek Kemanusian",
-    "course_name_en": "Humanity Project: Seminar Class of Volunteer Project",
-    "sks": 3,
-    "type": "Pilihan Kegiatan MBKM Proyek Kemanusiaan"
-  },
-  {
-    "course_code": "MII21-4010",
-    "course_name_id": "Soft skill: Kemampuan Berkomunikasi",
-    "course_name_en": "Good Communcation Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4011",
-    "course_name_id": "Soft skill: Kemampuan Kepemimpinan",
-    "course_name_en": "Leadership Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4012",
-    "course_name_id": "Soft skill: Kemampuan Bekerjasama dan Kolaborasi",
-    "course_name_en": "Teamwork Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4013",
-    "course_name_id": "Soft skill: Etos Kerja & Integritas",
-    "course_name_en": "Strong Work Ethic & Integrity Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4014",
-    "course_name_id": "Soft skill: Emosional dan Empati",
-    "course_name_en": "Emosional and Empathy Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4015",
-    "course_name_id": "Soft skill: Berpikir Kritis, Inovatif, dan Strategis",
-    "course_name_en": "Critical Inovative and Strategic Thinking Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4016",
-    "course_name_id": "Soft skill: Adaptasi",
-    "course_name_en": "Adaptatibility Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4017",
-    "course_name_id": "Soft skill: Public Speaking",
-    "course_name_en": "Public Speaking Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4018",
-    "course_name_id": "Soft skill: Membangun Jaringan Kerjasama",
-    "course_name_en": "Networking and Partnership Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4019",
-    "course_name_id": "Soft skill: Negosiasi dan Resolusi Konflik",
-    "course_name_en": "Negotiation and Conflict Resolution Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4020",
-    "course_name_id": "Soft skill: Kemampuan Motivasi Diri Sendiri",
-    "course_name_en": "Self-Motivated Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4021",
-    "course_name_id": "Soft skill: Multitasking dan Pengelolaan Aktivitas",
-    "course_name_en": "Well Organized and Multitasking Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4022",
-    "course_name_id": "Soft skill: Kemampuan Berkompetisi Secara Sehat",
-    "course_name_en": "Competitive and Enthusiastic Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Soft skill"
-  },
-  {
-    "course_code": "MII21-4030",
-    "course_name_id": "Hard skill: Manajemen Waktu dan Penjadwalan",
-    "course_name_en": "Time Management Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Hard skill"
-  },
-  {
-    "course_code": "MII21-4031",
-    "course_name_id": "Hard skill: Majemen Perencanaan Produk",
-    "course_name_en": "Planning Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Hard skill"
-  },
-  {
-    "course_code": "MII21-4032",
-    "course_name_id": "Hard skill: Pemecahan Masalah",
-    "course_name_en": "Problem Solver Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Hard skill"
-  },
-  {
-    "course_code": "MII21-4033",
-    "course_name_id": "Hard skill: Pengelolaan Anggaran Organisasi",
-    "course_name_en": "Budgeting Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Hard skill"
-  },
-  {
-    "course_code": "MII21-4034",
-    "course_name_id": "Hard skill: Manajemen Risiko",
-    "course_name_en": "Risk Management Training",
-    "sks": 2,
-    "type": "Pilihan MBKM Hard skill"
+    "type": "Pilihan Lab Sistem Komputer dan Jaringan",
+    "semesters": [5, 7]
   }
-]
+ ]
