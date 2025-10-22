@@ -1,10 +1,6 @@
-# model/course_recommender.py
 import json
 from pathlib import Path
 from typing import List, Optional, Union, Dict, Any
-
-# Logging removed: keep script output minimal
-
 
 class CourseRecommender:
     def __init__(
@@ -18,9 +14,6 @@ class CourseRecommender:
         self.courses = self._load_courses()
         self.prereq_rules = self._load_prereq_rules()
 
-        # quick lookup by course_code for convenience
-        self.course_map = {c["course_code"]: c for c in self.courses}
-
         # simple career -> keyword mapping (can be extended)
         self.career_keyword_map = {
             "data scientist": ["data", "machine learning", "statist", "data mining", 'sistem cerdas'],
@@ -30,123 +23,17 @@ class CourseRecommender:
             "web developer": ["web", "html", "css", "javascript", "backend", "frontend"],
             "network engineer": ["network", "jaringan"],
             "cyber security": ["security", "keamanan", "kriptografi"],
-            "business": [
-                "business",
-                "bisnis",
-                "startup",
-                "entrepreneur",
-                "wirausaha",
-                "marketing",
-                "pemasaran",
-                "manajemen",
-                "management",
-                "finance",
-                "keuangan",
-                "proposal",
-                "rencana bisnis",
-                "budget",
-                "operational",
-                "operation",
-                "ethic",
-                "etika",
-            ],
-            "business analyst": [
-                "business",
-                "bisnis",
-                "analyst",
-                "analisis",
-                "data",
-                "requirement",
-                "kebutuhan",
-                "process",
-                "proses",
-                "kpi",
-            ],
-            "product manager": [
-                "product",
-                "produk",
-                "ui",
-                "ux",
-                "user",
-                "requirement",
-                "roadmap",
-                "design thinking",
-            ],
-            "project manager": [
-                "project",
-                "proyek",
-                "manajemen proyek",
-                "scheduling",
-                "estimasi",
-                "risk",
-                "resiko",
-                "anggaran",
-                "budget",
-            ],
-            "data engineer": [
-                "data pipeline",
-                "data warehouse",
-                "big data",
-                "spark",
-                "hadoop",
-                "stream",
-                "kafka",
-                "etl",
-            ],
-            "cloud engineer": [
-                "cloud",
-                "aws",
-                "azure",
-                "gcp",
-                "microservice",
-                "docker",
-                "kubernetes",
-                "devops",
-            ],
-            "devops engineer": [
-                "devops",
-                "ci/cd",
-                "kubernetes",
-                "docker",
-                "monitoring",
-                "orchestration",
-                "scalable",
-                "scalability",
-            ],
-            "mobile developer": [
-                "mobile",
-                "android",
-                "ios",
-                "kotlin",
-                "swift",
-                "react native",
-                "flutter",
-            ],
-            "game developer": [
-                "game",
-                "grafika",
-                "graphics",
-                "unity",
-                "unreal",
-                "3d",
-                "animasi",
-            ],
-            "blockchain developer": [
-                "blockchain",
-                "smart contract",
-                "ethereum",
-                "bitcoin",
-                "cryptography",
-                "kriptografi",
-            ],
-            "database administrator": [
-                "database",
-                "sql",
-                "normalisasi",
-                "query",
-                "optimisasi",
-                "index",
-            ],
+            "business": ["business", "bisnis", "startup", "entrepreneur", "wirausaha", "marketing", "pemasaran", "manajemen", "management", "finance", "keuangan", "proposal", "rencana bisnis", "budget", "operational", "operation", "ethic", "etika"],
+            "business analyst": ["business", "bisnis", "analyst", "analisis", "data", "requirement", "kebutuhan", "process", "proses", "kpi"],
+            "product manager": ["product", "produk", "ui", "ux", "user", "requirement", "roadmap", "design thinking"],
+            "project manager": ["project", "proyek","manajemen proyek", "scheduling", "estimasi", "risk", "resiko", "anggaran", "budget",],
+            "data engineer": ["data pipeline", "data warehouse", "big data", "spark", "hadoop", "stream", "kafka", "etl"],
+            "cloud engineer": ["cloud", "aws", "azure", "gcp", "microservice", "docker", "kubernetes", "devops"],
+            "devops engineer": ["devops engineer", "ci/cd", "kubernetes", "docker", "monitoring", "orchestration", "scalable", "scalability"],
+            "mobile developer": ["mobile developer", "android", "ios", "kotlin", "swift", "react native", "flutter"],
+            "game developer": ["game developer", "grafika", "graphics", "unity", "unreal", "3d", "animasi"],
+            "blockchain developer": ["blockchain developer", "smart contract", "ethereum", "bitcoin", "cryptography", "kriptografi"],
+            "database administrator": ["database", "sql", "normalisasi", "query", "optimisasi", "index"],
             "frontend developer": ["frontend", "react", "vue", "css", "javascript", "ui"],
             "backend developer": ["backend", "api", "rest", "microservice", "database", "server"],
             "full stack developer": ["frontend", "backend", "full stack", "web"],
@@ -245,9 +132,6 @@ class CourseRecommender:
         with open(self.prereq_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    def _normalize_text(self, text: str) -> str:
-        return (text or "").lower()
-
     def _matches_interest(self, course: Dict[str, Any], interests: List[str]) -> int:
         """Return number of interest matches (used to multiply score bonus)."""
         if not interests:
@@ -307,7 +191,7 @@ class CourseRecommender:
         semester_preference: Optional[Union[int, str, List[Union[int, str]]]] = None,
         current_semester: Optional[Union[int, str]] = None,
         sks_must_match: bool = False,
-        top_n: int = 5,
+        top_n: int = 3,
     ) -> List[Dict[str, Any]]:
         """
         Return top_n recommended courses as JSON list.
@@ -334,7 +218,7 @@ class CourseRecommender:
         # Normalize semester preference -> set[int]
         def _to_int(val: Union[int, str]) -> Optional[int]:
             try:
-                return int(val)  # works for numeric strings
+                return int(val)
             except Exception:
                 return None
 
@@ -536,30 +420,3 @@ class CourseRecommender:
         )[:top_n]
 
         return recommended
-
-
-if __name__ == "__main__":
-    recommender = CourseRecommender(
-        courses_path="data/cs_courses.json",
-        prereq_path="data/prerequisite_rules.json",
-    )
-    sample_user = {
-        "courses_taken": ["MII21-1201", "MII21-1203"],
-        "interests": ["AI", "Data Science"],
-        "target_career": "Data Scientist",
-        "sks_preference": [2, 3],
-        "current_semester": 3,
-        "sks_must_match": True,
-    }
-    out = recommender.recommend_courses(
-        courses_taken=sample_user["courses_taken"],
-        interests=sample_user["interests"],
-        target_career=sample_user["target_career"],
-        sks_preference=sample_user["sks_preference"],
-        current_semester=sample_user["current_semester"],
-        sks_must_match=sample_user["sks_must_match"],
-        top_n=5,
-    )
-    import pprint
-
-    pprint.pprint(out)

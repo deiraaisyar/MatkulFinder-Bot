@@ -3,23 +3,13 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 from dotenv import load_dotenv
-
 from telegram import Update
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    MessageHandler,
-    ContextTypes,
-    ConversationHandler,
-    filters,
-)
+from telegram.ext import (Application, CommandHandler, MessageHandler, ContextTypes, ConversationHandler, filters,)
+load_dotenv()
 
 # Add parent directory to path to import course_recommender
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from model.course_recommender import CourseRecommender
-
-# Load environment variables
-load_dotenv()
 
 # Conversation states
 (
@@ -36,7 +26,6 @@ recommender = CourseRecommender(
     courses_path="data/cs_courses.json",
     prereq_path="data/prerequisite_rules.json",
 )
-
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Start the conversation and ask for the user's name."""
@@ -61,6 +50,19 @@ async def receive_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     )
     return ASKING_COURSES_TAKEN
 
+async def receive_which_features(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Ask which features to consider for recommendations."""
+    user_name = context.user_data.get("name", "")
+    await update.message.reply_text(
+        f"We have two features to help tailor your recommendations.\n\n"
+        f"1. Course Recommender: Help you find elective courses that match your interests and career goals in your next semester.\n"
+        f"2. Smart Course Planner: Plan your elective courses over multiple semesters to graduate on time while aligning with your interests and career goals.\n\n"
+        f"Thanks, {user_name}! 🙌\n\n"
+        f"Which features would you like me to consider for your course recommendations?\n"
+        f"Please choose from: interests, target career, SKS preference.\n\n"
+        f"Example: interests, target career"
+    )
+    return ASKING_COURSES_TAKEN
 
 async def receive_courses_taken(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Parse courses taken and ask current semester."""
@@ -72,19 +74,31 @@ async def receive_courses_taken(update: Update, context: ContextTypes.DEFAULT_TY
 
     await update.message.reply_text(
         f"Got it, {user_name}! ✅\n\n"
-        f"What semester are you currently in?\n\n"
-        f"Example: 3, 4, gasal, genap"
+        f"What semester are you currently in? (number only)\n\n"
+        f"Example: 3, 4"
     )
     return ASKING_CURRENT_SEMESTER
 
-
 async def receive_current_semester(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Parse current semester and ask interests."""
+    """Parse current semester (numeric only) and ask interests."""
     user_name = context.user_data.get("name", "")
-    semester_text = update.message.text.strip().lower()
+    semester_text = update.message.text.strip()
 
-    # Accept numeric semester or gasal/genap
-    context.user_data["current_semester"] = semester_text
+    # Validate numeric semester 1-8
+    try:
+        semester_num = int(semester_text)
+        if semester_num < 1 or semester_num > 8:
+            await update.message.reply_text(
+                "Please enter a valid semester number between 1 and 8. Example: 3"
+            )
+            return ASKING_CURRENT_SEMESTER
+    except ValueError:
+        await update.message.reply_text(
+            "Please enter a number for the semester. Example: 3"
+        )
+        return ASKING_CURRENT_SEMESTER
+
+    context.user_data["current_semester"] = semester_num
 
     await update.message.reply_text(
         f"Thanks, {user_name}! 👍\n\n"
@@ -92,7 +106,6 @@ async def receive_current_semester(update: Update, context: ContextTypes.DEFAULT
         f"Example: machine learning, web development, database"
     )
     return ASKING_INTERESTS
-
 
 async def receive_interests(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Parse interests and ask career target."""
@@ -109,7 +122,6 @@ async def receive_interests(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     )
     return ASKING_CAREER
 
-
 async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Parse career target and ask SKS preference."""
     user_name = context.user_data.get("name", "")
@@ -123,7 +135,6 @@ async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         f"Example: 2, 3, 4"
     )
     return ASKING_SKS
-
 
 async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Store SKS preference, generate recommendations, and end conversation."""
@@ -161,7 +172,7 @@ async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
             sks_preference=sks_preference,
             current_semester=current_semester,
             sks_must_match=False, 
-            top_n=5,
+            top_n=3,
         )
 
         if not recommendations:
@@ -203,7 +214,6 @@ async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     context.user_data.clear()
     return ConversationHandler.END
 
-
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancel the conversation."""
     await update.message.reply_text(
@@ -212,9 +222,8 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data.clear()
     return ConversationHandler.END
 
-
 def main() -> None:
-    """Run the bot (synchronous)."""
+    """Run the bot."""
     # Get token from environment
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
@@ -247,11 +256,9 @@ def main() -> None:
 
     application.add_handler(conv_handler)
 
-    # Start the bot
     print("🤖 MatkulFinder Bot is running...")
     print("Press Ctrl+C to stop.")
     application.run_polling()
-
 
 if __name__ == "__main__":
     main()
