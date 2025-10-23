@@ -1,359 +1,277 @@
-from __future__ import annotations
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, FrozenSet, Tuple, Union
 import json
 import heapq
-import sys
-from pathlib import Path as _P
-sys.path.append(str(_P(__file__).resolve().parents[1]))
-from model.course_recommender import CourseRecommender  
+from typing import Any, Dict, List, Optional, Tuple
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
-COURSES_PATH = DATA_DIR / "cs_courses.json"
-PREREQ_PATH = DATA_DIR / "prerequisite_rules.json"
-
-
-def _load_json(path: Path) -> Any:
+def load_json(path):
+    """Load a JSON file from the given path."""
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+def load_knowledge() -> Tuple[List[Dict[str, Any]], Dict[str, Any], Dict[str, List[str]], Dict[str, List[str]]]:
+    """Load all required data files for courses, prerequisites, and preferences."""
+    courses = load_json("data/cs_courses.json") or load_json("data/courses.json")
+    prereqs = load_json("data/prerequisite_rules.json") or load_json("data/prerequisites.json")
+    career_keywords = load_json("data/career_keywords.json")
+    lab_preferences = load_json("data/lab_preferences.json")
+    return courses, prereqs, career_keywords, lab_preferences
 
-class CoursePlanner:
+def is_elective(course):
+    """Check if a course is elective based on its 'type' field."""
+    return "wajib" not in (course.get("type") or "").lower()
+
+def offered_in_semester(course, sem):
+    """Check if a course is offered in a specific semester."""
+    sems = course.get("semesters") or []
+    if not sems:
+        return True
+    return sem in [int(s) for s in sems if isinstance(s, (int, str)) and str(s).isdigit()]
+
+def prereq_ok(code, taken, rules):
+    """Return True if all prerequisites for a given course are already taken."""
+    entry = rules.get(code)
+    if not entry:
+        return True
+    prereqs = [p.get("code") for p in entry.get("prerequisites", []) if not p.get("is_corequisite")]
+    return set(prereqs).issubset(taken)
+
+
+# ============================================================
+# ======== Scoring and Matching Logic ========================
+# ============================================================
+
+def matches_interest(course, interests):
+    """Count how many user interests appear in the course name or topics."""
+    text = " ".join([
+        course.get("course_name_en", ""),
+        course.get("course_name_id", ""),
+        " ".join(course.get("topics", []) or []),
+    ]).lower()
+    return sum(1 for i in interests if i.lower() in text)
+
+def is_relevant_to_career(course, target, career_keywords):
+    """Check if a course is relevant to the target career using keyword matching."""
+    target = (target or "").lower()
+    haystack = " ".join([
+        course.get("course_name_en", ""),
+        course.get("course_name_id", ""),
+        " ".join(course.get("topics", []) or []),
+        course.get("type", "") or "",
+    ]).lower()
+    for career, keywords in (career_keywords or {}).items():
+        ck = (career or "").lower()
+        if ck in target or target in ck:
+            if any((kw or "").lower() in haystack for kw in (keywords or [])):
+                return True
+    for token in target.split():
+        if token and token in haystack:
+            return True
+    return False
+
+def lab_category(course_type):
+    """Classify course type into a lab category for weighting purposes."""
+    t = (course_type or "").lower()
+    if "algoritma" in t or "komputasi" in t:
+        return "algkom"
+    if "rekayasa perangkat lunak" in t or "rpl" in t or "data" in t:
+        return "rpld"
+    if "sistem cerdas" in t or "intelligent" in t:
+        return "ai"
+    if "jaringan" in t or "network" in t:
+        return "skj"
+    return None
+
+def lab_preferences_for_career(career_goal, lab_preferences):
+    """Find the preferred lab categories for a specific career goal."""
+    ck = (career_goal or "").lower()
+    for k, v in (lab_preferences or {}).items():
+        lk = (k or "").lower()
+        if lk in ck or ck in lk:
+            return v or []
+    return []
+
+def score_course(course, interests, career_goal, career_keywords, lab_preferences):
+    """Compute a course score based on interests, career goal, and lab preference."""
+    score = 0
+    score += 15 * matches_interest(course, interests or [])
+    if career_goal and is_relevant_to_career(course, career_goal, career_keywords):
+        score += 10
+    lab_cat = lab_category(course.get("type"))
+    lab_pref = lab_preferences_for_career(career_goal, lab_preferences)
+    if lab_cat and lab_pref and lab_cat in lab_pref:
+        idx = lab_pref.index(lab_cat)
+        weights = [20, 12, 6, 3]
+        score += weights[idx] if idx < len(weights) else 2
+    return score
+
+def prereq_depth(prereq_rules, code, depth=0):
+    """Recursively compute the prerequisite depth for a given course."""
+    entry = prereq_rules.get(code)
+    if not entry:
+        return depth
+    prereqs = [p.get("code") for p in entry.get("prerequisites", []) if p.get("code")]
+    if not prereqs:
+        return depth
+    return max(prereq_depth(prereq_rules, p, depth + 1) for p in prereqs)
+
+def build_course_graph(courses, prereq_rules, interests, career_goal, career_keywords, lab_preferences):
     """
-    Greedy per-semester elective planner (structured to match repo data).
-    - Plans from next semester (current+1) until semester 8
-    - Picks only electives (excludes any course whose type contains 'wajib')
-    - Honors prerequisites (non-coreq must be taken already)
-    - Respects semester availability if provided in course["semesters"]
-    - Ranks candidates by a simple score: interests + career relevance + lab preference
+    Build a directed graph of courses.
+    Each edge weight (cost) depends on prerequisite depth and course score.
+    Lower cost means the course is more favorable.
     """
-
-    def __init__(self, courses_path: Path = COURSES_PATH, prereq_path: Path = PREREQ_PATH) -> None:
-        self.courses = _load_json(courses_path)
-        self.prereq = _load_json(prereq_path)
-        self.rec = CourseRecommender(courses_path=courses_path, prereq_path=prereq_path)
-
-        # fast lookup
-        self.course_by_code: Dict[str, Dict[str, Any]] = {
-            c.get("course_code"): c for c in self.courses if c.get("course_code")
-        }
-        # Per-semester SKS caps are provided at runtime by the user (comma-separated or list)
-
-    def _is_elective(self, course: Dict[str, Any]) -> bool:
-        ctype = (course.get("type") or "").lower()
-        return "wajib" not in ctype
-
-    def _offered_in_semester(self, course: Dict[str, Any], sem: int) -> bool:
-        sems = course.get("semesters") or []
-        if not sems:
-            # if data missing, allow
-            return True
-        try:
-            sems_int = {int(s) for s in sems if s is not None}
-        except Exception:
-            sems_int = {s for s in sems if isinstance(s, int)}
-        return sem in sems_int if sems_int else True
-
-    def _prereq_ok(self, code: str, taken: Set[str]) -> bool:
-        entry = self.prereq.get(code)
-        if not entry:
-            # Treat missing entry as no strict prerequisites
-            return True
-        prereqs = entry.get("prerequisites", []) or []
-        if not prereqs:
-            # No prerequisites -> eligible
-            return True
-        non_coreq = [p["code"] for p in prereqs if not p.get("is_corequisite")]
-        return set(non_coreq).issubset(taken)
-
-    def _score(self, course: Dict[str, Any], interests: List[str], career_goal: Optional[str]) -> int:
-        score = 0
-        # interests
-        matches = self.rec._matches_interest(course, interests or [])
-        score += 15 * matches
-
-        # career relevance
-        if career_goal and self.rec._career_relevance(course, career_goal):
-            score += 10
-
-        # lab preference
-        lab_cat = self.rec._lab_category(course.get("type"))
-        lab_pref = self.rec._lab_preferences_for_career(career_goal)
-        if lab_cat and lab_pref and lab_cat in lab_pref:
-            idx = lab_pref.index(lab_cat)
-            weights = [20, 12, 6, 3]
-            score += weights[idx] if idx < len(weights) else 2
-        return score
-
-    def _pick_for_semester(
-        self,
-        sem: int,
-        taken: Set[str],
-        interests: List[str],
-        career_goal: Optional[str],
-        max_sks: int,
-    ) -> List[Dict[str, Any]]:
-        # candidates: elective, not taken, offered this sem, prereq ok
-        candidates: List[Dict[str, Any]] = []
-        for c in self.courses:
-            code = c.get("course_code")
-            if not code or code in taken:
+    graph = {}
+    course_map = {c.get("course_code"): c for c in courses if c.get("course_code")}
+    for code, course in course_map.items():
+        graph.setdefault(code, [])
+        entry = prereq_rules.get(code, {})
+        prereqs = [p.get("code") for p in entry.get("prerequisites", []) if p.get("code")]
+        for pre in prereqs:
+            if pre not in course_map:
                 continue
-            if not self._is_elective(c):
-                continue
-            if not self._offered_in_semester(c, sem):
-                continue
-            if not self._prereq_ok(code, taken):
-                continue
-            candidates.append(c)
+            sc = score_course(course, interests, career_goal, career_keywords, lab_preferences)
+            depth = prereq_depth(prereq_rules, code)
+            # Reduce the impact of depth so high-relevance courses (e.g., AI lab) are not dominated by zero-prereq courses
+            cost = (1.0 + 0.2 * depth) / (sc + 1e-5)
+            graph.setdefault(pre, []).append((code, cost))
+    return graph
 
-        # rank by score desc
-        candidates.sort(key=lambda x: self._score(x, interests, career_goal), reverse=True)
+def heuristic(a, b, prereq_rules):
+    """Estimate the distance between two courses using prerequisite depth difference."""
+    return abs(prereq_depth(prereq_rules, a) - prereq_depth(prereq_rules, b))
 
-        picked: List[Dict[str, Any]] = []
-        total_sks = 0
-        for c in candidates:
-            try:
-                sks = int(c.get("sks") or 0)
-            except Exception:
-                sks = 0
-            if sks <= 0:
-                continue
-            if total_sks + sks > max_sks:
-                continue
-            picked.append(c)
-            total_sks += sks
-        return picked
+def astar(graph, start, goal, prereq_rules):
+    """Perform A* search on the course graph to find the optimal prerequisite path."""
+    open_set = [(0, start)]
+    came_from = {}
+    g_score = {start: 0}
+    f_score = {start: heuristic(start, goal, prereq_rules)}
 
-    # ---------- A* based full-planner (from next semester to 8) ----------
-    def _candidate_courses_for_semester(self, sem: int, taken_prev: Set[str]) -> List[Dict[str, Any]]:
-        out = []
-        for c in self.courses:
-            code = c.get("course_code")
-            if not code:
-                continue
-            if not self._is_elective(c):
-                continue
-            if not self._offered_in_semester(c, sem):
-                continue
-            if not self._prereq_ok(code, taken_prev):
-                continue
-            out.append(c)
-        return out
+    while open_set:
+        _, current = heapq.heappop(open_set)
+        if current == goal:
+            # Reconstruct path from start to goal
+            path = [current]
+            while current in came_from:
+                current = came_from[current]
+                path.append(current)
+            return list(reversed(path))
 
+        for neighbor, cost in graph.get(current, []):
+            tentative_g = g_score[current] + cost
+            if tentative_g < g_score.get(neighbor, float("inf")):
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + heuristic(neighbor, goal, prereq_rules)
+                heapq.heappush(open_set, (f_score[neighbor], neighbor))
+    return None
 
-    def plan_until_graduation_astar(
-        self,
-        name: str,
-        courses_taken: List[str],
-        interests: List[str],
-        career_goal: Optional[str],
-        current_semester: int,
-        per_semester_caps: Optional[Union[str, List[int]]] = None,
-        top_candidates: int = 15,
-        max_expansions: int = 20000,
-    ) -> Dict[str, Any]:
-        """
-        Use A* search to build an elective-only plan from next semester up to semester 8.
-
-        State = (sem, used_sks, planned_prev, planned_cur)
-          - sem: current semester number being planned
-          - used_sks: SKS already selected in this semester
-          - planned_prev: frozenset of course codes chosen in earlier semesters
-          - planned_cur: frozenset of course codes chosen in the current semester
-
-        Transitions:
-          - add one eligible course to current semester (respect SKS limit)
-          - advance to next semester (sem += 1), flushing planned_cur into planned_prev
-
-        Goal: sem == 8 (passed semester 7)
-        Cost: sum over steps of (C - score(course)) for adds, with C=200.
-        Heuristic: 0 (admissible, keeps algorithm correct)
-        """
-        start_sem = int(current_semester) + 1
-        # Build per-semester SKS caps mapping from user-provided sequence, starting at start_sem
-        caps_map: Dict[int, int] = {}
-        caps_list: List[int] = []
-        if isinstance(per_semester_caps, str):
-            raw = [p.strip() for p in per_semester_caps.split(",")]
-            for p in raw:
-                try:
-                    n = int(p)
-                    if n > 0:
-                        caps_list.append(n)
-                except Exception:
-                    continue
-        elif isinstance(per_semester_caps, (list, tuple)):
-            for p in per_semester_caps:
-                try:
-                    n = int(p)
-                    if n > 0:
-                        caps_list.append(n)
-                except Exception:
-                    continue
-        # Assign sequentially to semesters start_sem..7
-        for idx, sem in enumerate(range(start_sem, 8)):
-            if idx < len(caps_list):
-                caps_map[sem] = caps_list[idx]
-        start_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]] = (start_sem, 0, frozenset(), frozenset())
-
-        def goal(state: Tuple[int, int, FrozenSet[str], FrozenSet[str]]) -> bool:
-            sem, _used, _prev, _cur = state
-            return sem >= 8
-
-        def heuristic(_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]]) -> int:
-            return 0
-
-        # Priority queue entries: (f, state)
-        open_heap: List[Tuple[int, Tuple[int, int, FrozenSet[str], FrozenSet[str]]]] = []
-        heapq.heappush(open_heap, (0, start_state))
-        came_from: Dict[Tuple[int, int, FrozenSet[str], FrozenSet[str]], Tuple[Tuple[int, int, FrozenSet[str], FrozenSet[str]], Tuple[str, Optional[str]]]] = {}
-        # action tuple = ("add", code) or ("advance", None)
-        g_cost: Dict[Tuple[int, int, FrozenSet[str], FrozenSet[str]], int] = {start_state: 0}
-
-        expansions = 0
-        ADVANCE_BASE = 1000  # per-semester baseline cost; reduced by semester 'fit'
-        SKS_BONUS_PER_SKS = 60  # stronger incentive to fill SKS, enabling later semesters to be used
-
-        while open_heap and expansions < max_expansions:
-            _, state = heapq.heappop(open_heap)
-            expansions += 1
-            sem, used, prev_set, cur_set = state
-
-            if goal(state):
+def path_cost(graph: Dict[str, List[Tuple[str, float]]], path: List[str]) -> float:
+    """Compute total path cost based on edge weights in the graph."""
+    total = 0.0
+    for i in range(len(path) - 1):
+        u, v = path[i], path[i+1]
+        for nb, cost in graph.get(u, []):
+            if nb == v:
+                total += cost
                 break
+    return total
 
-            # Transition 1: add an eligible course in current semester
-            taken_prev = set(courses_taken or []) | set(prev_set)
-            candidates = self._candidate_courses_for_semester(sem, taken_prev)
-            # Remove those already chosen in prev or cur
-            chosen_all = set(prev_set) | set(cur_set)
-            candidates = [c for c in candidates if c.get("course_code") not in chosen_all]
-            # Rank top-K by score
-            candidates.sort(key=lambda x: self._score(x, interests or [], career_goal), reverse=True)
-            if top_candidates > 0:
-                candidates = candidates[:top_candidates]
+def plan_until_graduation_astar(
+    name: str,
+    courses_taken: List[str],
+    interests: List[str],
+    career_goal: str,
+    current_semester: int,
+    per_semester_sks_cap: Optional[int] = None,
+    per_semester_count_cap: Optional[int] = 5,
+):
+    """
+    Plan courses until graduation using A* to choose the next best course each semester.
+    One course per semester is chosen for simplicity.
+    """
+    courses, prereq, career_keywords, lab_preferences = load_knowledge()
+    graph = build_course_graph(courses, prereq, interests, career_goal, career_keywords, lab_preferences)
+    course_map = {c.get("course_code"): c for c in courses if c.get("course_code")}
 
-            for c in candidates:
-                try:
-                    sks = int(c.get("sks") or 0)
-                except Exception:
-                    sks = 0
-                cap = caps_map.get(sem, 20)
-                if sks <= 0 or used + sks > cap:
-                    continue
-                code = c.get("course_code")
-                if not code:
-                    continue
-                # adding within a semester is free; reward applied when advancing
-                step_cost = 0
-                new_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]] = (
-                    sem,
-                    used + sks,
-                    prev_set,
-                    frozenset(set(cur_set) | {code}),
-                )
-                tentative_g = g_cost[state] + step_cost
-                if tentative_g < g_cost.get(new_state, float("inf")):
-                    g_cost[new_state] = tentative_g
-                    came_from[new_state] = (state, ("add", code))
-                    f = tentative_g + heuristic(new_state)
-                    heapq.heappush(open_heap, (f, new_state))
+    available_nodes = [c.get("course_code") for c in courses if c.get("course_code")]
+    taken = set(courses_taken)
+    schedule = []
 
-            # Transition 2: advance semester
-            next_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]] = (
-                sem + 1,
-                0,
-                frozenset(set(prev_set) | set(cur_set)),
-                frozenset(),
-            )
-            # advancing pays baseline cost reduced by the total score and SKS of this semester
-            semester_score = 0
-            semester_sks = 0
-            for code in cur_set:
-                course = self.course_by_code.get(code)
-                if course:
-                    semester_score += self._score(course, interests or [], career_goal)
-                    try:
-                        semester_sks += int(course.get("sks") or 0)
-                    except Exception:
-                        pass
-            effective = semester_score + SKS_BONUS_PER_SKS * semester_sks
-            step_cost = max(0, ADVANCE_BASE - effective)
-            tentative_g = g_cost[state] + step_cost
-            if tentative_g < g_cost.get(next_state, float("inf")):
-                g_cost[next_state] = tentative_g
-                came_from[next_state] = (state, ("advance", None))
-                f = tentative_g + heuristic(next_state)
-                heapq.heappush(open_heap, (f, next_state))
+    for sem in range(current_semester + 1, 8):
+        chosen = []
+        total_sks = 0
 
-        # pick best goal-like state: among states with sem>=8 and minimal g
-        goal_states = [(s, g) for s, g in g_cost.items() if s[0] >= 8]
-        if goal_states:
-            best_state = min(goal_states, key=lambda x: x[1])[0]
-        else:
-            # Fallback: pick the furthest semester reached (max sem), then lowest cost
-            best_state = min(g_cost.keys(), key=lambda s: (-s[0], g_cost[s]))
+        # Candidate courses that satisfy prerequisites and are offered this semester
+        candidates = [
+            c for c in available_nodes
+            if prereq_ok(c, taken, prereq)
+            and c not in taken
+            and is_elective(course_map.get(c, {}))
+            and offered_in_semester(course_map.get(c, {}), sem)
+        ]
 
-        # Reconstruct actions
-        actions: List[Tuple[str, Optional[str], int]] = []  # (action, code, sem_at_action)
-        node = best_state
-        while node in came_from:
-            prev, act = came_from[node]
-            sem_at = prev[0]
-            actions.append((act[0], act[1], sem_at))
-            node = prev
-        actions.reverse()
-
-        # Build schedule map from actions
-        schedule_map: Dict[int, List[Dict[str, Any]]] = {s: [] for s in range(start_sem, 8)}
-        chosen_codes: Set[str] = set()
-        for typ, code, sem_at in actions:
-            if typ != "add" or code is None:
-                continue
-            if sem_at < start_sem or sem_at > 7:
-                continue
-            if code in chosen_codes:
-                continue
-            course = self.course_by_code.get(code)
+        best_item = None  # (total_cost, -score, code, course)
+        for code in candidates:
+            course = course_map.get(code)
             if not course:
                 continue
-            schedule_map[sem_at].append(course)
-            chosen_codes.add(code)
 
-        # Compose final schedule array
-        schedule: List[Dict[str, Any]] = []
-        for sem in range(start_sem, 8):
-            courses = schedule_map.get(sem, [])
-            total_sks = 0
-            for c in courses:
-                try:
-                    total_sks += int(c.get("sks") or 0)
-                except Exception:
-                    pass
-            schedule.append({"semester": sem, "courses": courses, "sks": total_sks})
+            # Use direct prerequisites as starting nodes for A*
+            entry = prereq.get(code, {})
+            pre_list = [p.get("code") for p in entry.get("prerequisites", []) if p.get("code")]
+            start_nodes = pre_list if pre_list else [code]
 
-        return {
-            "name": name,
-            "start_semester": current_semester,
-            "schedule": schedule,
-        }
+            # Compute a baseline "own" cost using the same formula as edges
+            sc = score_course(course, interests, career_goal, career_keywords, lab_preferences)
+            depth = prereq_depth(prereq, code)
+            own_cost = (1.0 + 0.2 * depth) / (sc + 1e-5)
 
-    def plan_until_graduation(
-        self,
-        name: str,
-        courses_taken: List[str],
-        interests: List[str],
-        career_goal: Optional[str],
-        current_semester: int,
-        per_semester_caps: Optional[Union[str, List[int]]] = None,
-    ) -> Dict[str, Any]:
-        """Default to A* planner for full plan until semester 8."""
-        return self.plan_until_graduation_astar(
-            name=name,
-            courses_taken=courses_taken,
-            interests=interests,
-            career_goal=career_goal,
-            current_semester=current_semester,
-            per_semester_caps=per_semester_caps,
-        )
+            best_path_cost = float("inf")
+            for s in start_nodes:
+                if s not in graph:
+                    continue
+                path = astar(graph, s, code, prereq)
+                if path:
+                    # If path is trivial (start==goal), use own_cost instead of zero
+                    if len(path) <= 1:
+                        cst = own_cost
+                    else:
+                        cst = path_cost(graph, path)
+                    if cst < best_path_cost:
+                        best_path_cost = cst
+
+            # If no path found, fall back to own_cost (still meaningful)
+            if best_path_cost == float("inf"):
+                best_path_cost = own_cost
+
+            item = (best_path_cost, -sc, course.get("course_code"), course)
+            if best_item is None or item < best_item:
+                best_item = item
+
+        # Select one best course for this semester
+        if best_item:
+            _, _, _, best_course = best_item
+            sks = int(best_course.get("sks") or 0)
+            if (per_semester_sks_cap is None) or (sks <= per_semester_sks_cap):
+                chosen = [best_course]
+                total_sks = sks
+                taken.add(best_course.get("course_code"))
+
+        schedule.append({
+            "semester": sem,
+            "sks": total_sks,
+            "courses": [
+                {
+                    "course_code": c.get("course_code"),
+                    "course_name_en": c.get("course_name_en") or c.get("course_name_id"),
+                    "sks": c.get("sks")
+                }
+                for c in chosen
+            ]
+        })
+
+    return {
+        "name": name,
+        "start_semester": current_semester,
+        "schedule": schedule
+    }

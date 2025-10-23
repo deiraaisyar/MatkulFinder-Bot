@@ -7,12 +7,10 @@ from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (Application, CommandHandler, MessageHandler, ContextTypes, ConversationHandler, filters,)
 load_dotenv()
 
-# Add parent directory to path to import course_recommender
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from model.course_recommender import CourseRecommender
-from model.smart_course_planner import CoursePlanner
+from model.course_recommender import recommend as kb_recommend
+from model.smart_course_planner import plan_until_graduation_astar as plan_astar
 
-# Conversation states
 (
     ASKING_NAME,
     ASKING_FEATURE,
@@ -21,18 +19,7 @@ from model.smart_course_planner import CoursePlanner
     ASKING_INTERESTS,
     ASKING_CAREER,
     ASKING_SKS,
-    ASKING_PLANNER_CAPS,
-) = range(8)
-
-# Initialize recommender
-recommender = CourseRecommender(
-    courses_path="data/cs_courses.json",
-    prereq_path="data/prerequisite_rules.json",
-)
-planner = CoursePlanner(
-    courses_path="data/cs_courses.json",
-    prereq_path="data/prerequisite_rules.json",
-)
+) = range(7)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Start the conversation and ask for the user's name."""
@@ -155,14 +142,76 @@ async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     context.user_data["target_career"] = career
     # Branch based on chosen feature
     if context.user_data.get("feature") == "planner":
+        # Directly run planner now (one course per semester; no caps needed)
+        name = context.user_data.get("name", "You")
+        courses_taken = context.user_data.get("courses_taken", [])
+        current_semester = context.user_data.get("current_semester")
+        interests = context.user_data.get("interests", [])
+        target_career = context.user_data.get("target_career")
+
         await update.message.reply_text(
             f"Perfect, {user_name}! 💼\n\n"
-            f"Enter per-semester SKS caps for the upcoming semesters (comma-separated).\n"
-            f"These will apply from your next semester onward up to semester 7.\n\n"
-            f"Example: 6, 12, 14, 7\n"
-            f"Leave blank to use defaults (20 SKS per semester)."
+            f"I'm generating your smart multi-semester elective plan (A* picks one best elective per semester, offered that term, prereqs satisfied)..."
         )
-        return ASKING_PLANNER_CAPS
+
+        try:
+            plan = plan_astar(
+                name=name,
+                courses_taken=courses_taken,
+                interests=interests,
+                career_goal=target_career,
+                current_semester=current_semester,
+                per_semester_sks_cap=None,
+                per_semester_count_cap=None,
+            )
+
+            schedule = plan.get("schedule", [])
+            if not schedule:
+                await update.message.reply_text(
+                    f"Sorry {name}, I couldn't create a plan with the given info. 😔\n\n"
+                    f"Try completing more prerequisites.\n\n"
+                    f"Type /start to try again!"
+                )
+            else:
+                lines = [
+                    f"📅 Smart Course Plan for {name}",
+                    f"• Current semester: {current_semester}",
+                    f"• Interests: {', '.join(interests) if interests else '-'}",
+                    f"• Target career: {target_career or '-'}",
+                    "• Method: A* path-cost selection (1 elective/semester)",
+                    "• Constraints: elective-only, offered-in-semester, prerequisites satisfied",
+                    ""
+                ]
+                for term in schedule:
+                    sem = term.get("semester")
+                    courses = term.get("courses", [])
+                    sks = term.get("sks", 0)
+                    course_list = []
+                    for c in courses:
+                        code = c.get("course_code", "N/A")
+                        title = c.get("course_name_en", "")
+                        try:
+                            c_sks = int(c.get("sks") or 0)
+                        except Exception:
+                            c_sks = 0
+                        course_list.append(f"{code} ({c_sks}) - {title}")
+                    if course_list:
+                        lines.append(f"Semester {sem}:\n- " + "\n- ".join(course_list) + f"\n(SKS: {sks})\n")
+                    else:
+                        lines.append(f"Semester {sem}: [No electives scheduled]\n(SKS: {sks})\n")
+
+                lines.append("Tip: If some semesters are empty, consider taking missing prerequisites earlier.")
+                lines.append("\nType /start to plan again or get recommendations!")
+                await update.message.reply_text("\n".join(lines))
+
+        except Exception as e:
+            await update.message.reply_text(
+                f"Sorry {name}, an error occurred while planning: {str(e)}\n\n"
+                f"Type /start to try again!"
+            )
+
+        context.user_data.clear()
+        return ConversationHandler.END
     else:
         await update.message.reply_text(
             f"Perfect, {user_name}! 💼\n\n"
@@ -171,70 +220,7 @@ async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         )
         return ASKING_SKS
 
-async def receive_planner_caps(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Collect planner caps (optionally blank), run planner, and end conversation."""
-    caps_text = (update.message.text or "").strip()
-
-    # Gather user data
-    name = context.user_data.get("name", "You")
-    courses_taken = context.user_data.get("courses_taken", [])
-    current_semester = context.user_data.get("current_semester")
-    interests = context.user_data.get("interests", [])
-    target_career = context.user_data.get("target_career")
-
-    await update.message.reply_text(
-        f"Thanks, {name}! 🧠\n\n"
-        f"I'm generating your smart multi-semester elective plan..."
-    )
-
-    try:
-        plan = planner.plan_until_graduation(
-            name=name,
-            courses_taken=courses_taken,
-            interests=interests,
-            career_goal=target_career,
-            current_semester=current_semester,
-            per_semester_caps=caps_text or None,
-        )
-
-        schedule = plan.get("schedule", [])
-        if not schedule:
-            await update.message.reply_text(
-                f"Sorry {name}, I couldn't create a plan with the given info. 😔\n\n"
-                f"Try relaxing caps or completing more prerequisites.\n\n"
-                f"Type /start to try again!"
-            )
-        else:
-            lines = [f"📅 Smart Course Plan for {name}\n"]
-            for term in schedule:
-                sem = term.get("semester")
-                courses = term.get("courses", [])
-                sks = term.get("sks", 0)
-                course_list = []
-                for c in courses:
-                    code = c.get("course_code", "N/A")
-                    title = c.get("course_name_id", c.get("course_name_en", ""))
-                    try:
-                        c_sks = int(c.get("sks") or 0)
-                    except Exception:
-                        c_sks = 0
-                    course_list.append(f"{code} ({c_sks}) - {title}")
-                if course_list:
-                    lines.append(f"Semester {sem}:\n- " + "\n- ".join(course_list) + f"\n(SKS: {sks})\n")
-                else:
-                    lines.append(f"Semester {sem}: [No electives scheduled]\n(SKS: {sks})\n")
-
-            lines.append("Type /start to plan again or get recommendations!")
-            await update.message.reply_text("\n".join(lines))
-
-    except Exception as e:
-        await update.message.reply_text(
-            f"Sorry {name}, an error occurred while planning: {str(e)}\n\n"
-            f"Type /start to try again!"
-        )
-
-    context.user_data.clear()
-    return ConversationHandler.END
+## receive_planner_caps removed; planner runs immediately after career is provided
 
 async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Store SKS preference, generate recommendations, and end conversation."""
@@ -264,15 +250,16 @@ async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     )
 
     try:
-        # Call the recommender
-        recommendations = recommender.recommend_courses(
-            courses_taken=courses_taken,
+        # Call the functional recommender (copy version)
+        recommendations = kb_recommend(
+            taken=courses_taken,
             interests=interests,
-            target_career=target_career,
-            sks_preference=sks_preference,
-            current_semester=current_semester,
-            sks_must_match=False, 
+            career=target_career,
             top_n=3,
+            sks_preference=sks_preference,
+            sks_must_match=False,
+            semester_preference=None,
+            current_semester=current_semester,
         )
 
         if not recommendations:
@@ -285,15 +272,13 @@ async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
             response = f"📚 *Course Recommendations for {name}*\n\n"
             for idx, course in enumerate(recommendations, 1):
                 code = course.get("course_code", "N/A")
-                name_id = course.get("course_name_id", "N/A")
                 name_en = course.get("course_name_en", "N/A")
-                sks = course.get("sks", "N/A")
                 score = course.get("score", 0)
-                reasons = course.get("reason", [])
+                reasons = course.get("reasons", [])
 
-                response += f"{idx}. *{code}* - {name_id}\n"
+                response += f"{idx}. *{code}*\n"
                 response += f"   _{name_en}_\n"
-                response += f"   SKS: {sks} | Score: {score}\n"
+                response += f"   Score: {score}\n"
                 if reasons:
                     response += f"   Reasons:\n"
                     for reason in reasons[:3]:  # Show top 3 reasons
@@ -351,7 +336,6 @@ def main() -> None:
             ],
             ASKING_CAREER: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_career)],
             ASKING_SKS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_sks)],
-            ASKING_PLANNER_CAPS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_planner_caps)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )

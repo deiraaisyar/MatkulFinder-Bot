@@ -1,0 +1,31 @@
+{
+  "frontend developer": ["rpld", "algkom", "skj"],
+  "ui/ux designer": ["rpld", "algkom"],
+  "web developer": ["rpld", "algkom"],
+  "full stack developer": ["rpld", "algkom", "skj"],
+  "backend developer": ["rpld", "skj", "algkom"],
+
+  "data scientist": ["ai", "algkom", "rpld"],
+  "data engineer": ["rpld", "skj"],
+  "ai engineer": ["ai", "algkom", "rpld"],
+  "machine learning engineer": ["ai", "algkom", "rpld"],
+  "computer vision engineer": ["ai", "algkom"],
+  "nlp engineer": ["ai", "algkom"],
+
+  "devops engineer": ["skj", "rpld"],
+  "cloud engineer": ["skj", "rpld"],
+  "security analyst": ["skj", "rpld"],
+  "network engineer": ["skj"],
+
+  "product manager": ["rpld", "algkom"],
+  "project manager": ["rpld"],
+  "business": ["rpld"],
+  "business analyst": ["rpld"],
+  "qa engineer": ["rpld"],
+
+  "mobile developer": ["rpld", "algkom"],
+  "game developer": ["algkom", "ai"],
+  "database administrator": ["rpld", "skj"],
+  "blockchain developer": ["skj", "rpld"],
+  "software engineer": ["rpld", "algkom"]
+}

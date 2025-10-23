@@ -1,0 +1,32 @@
+{
+  "frontend developer": ["frontend", "react", "vue", "css", "javascript", "ui"],
+  "ui/ux designer": ["ui", "ux", "user experience", "user interface", "design"],
+  "web developer": ["web", "html", "css", "javascript", "backend", "frontend"],
+  "full stack developer": ["frontend", "backend", "full stack", "web"],
+  "backend developer": ["backend", "api", "rest", "microservice", "database", "server"],
+
+  "data scientist": ["data", "machine learning", "statist", "data mining", "sistem cerdas"],
+  "data engineer": ["data pipeline", "data warehouse", "big data", "spark", "hadoop", "stream", "kafka", "etl"],
+  "ai engineer": ["artificial", "intelligence", "ai", "deep learning"],
+  "machine learning engineer": ["machine learning", "deep learning", "ml"],
+  "computer vision engineer": ["vision", "penglihatan komputer", "image", "citra"],
+  "nlp engineer": ["nlp", "natural language", "bahasa alami", "text"],
+
+  "devops engineer": ["devops", "ci/cd", "kubernetes", "docker", "monitoring", "orchestration", "scalable"],
+  "cloud engineer": ["cloud", "aws", "azure", "gcp", "microservice", "docker", "kubernetes", "devops"],
+  "security analyst": ["security", "keamanan", "network", "forensik", "audit"],
+  "cyber security": ["security", "keamanan", "kriptografi"],
+  "network engineer": ["network", "jaringan"],
+
+  "product manager": ["product", "produk", "ui", "ux", "user", "requirement", "roadmap", "design thinking"],
+  "project manager": ["project", "proyek", "manajemen proyek", "scheduling", "estimasi", "risk", "resiko", "anggaran", "budget"],
+  "business": ["business", "bisnis", "startup", "entrepreneur", "wirausaha", "marketing", "pemasaran", "manajemen", "management", "finance", "keuangan", "proposal", "rencana bisnis", "budget", "operational", "operation", "ethic", "etika"],
+  "business analyst": ["business", "bisnis", "analyst", "analisis", "data", "requirement", "kebutuhan", "process", "proses", "kpi"],
+  "qa engineer": ["quality", "testing", "unit test", "automation", "assurance"],
+
+  "mobile developer": ["mobile", "android", "ios", "kotlin", "swift", "react native", "flutter"],
+  "game developer": ["game", "grafika", "graphics", "unity", "unreal", "3d", "animasi"],
+  "blockchain developer": ["blockchain", "smart contract", "ethereum", "bitcoin", "cryptography", "kriptografi"],
+  "database administrator": ["database", "sql", "normalisasi", "query", "optimisasi", "index"],
+  "software engineer": ["program", "software", "object oriented", "oop"]
+}
