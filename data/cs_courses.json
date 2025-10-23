@@ -508,7 +508,8 @@
     "course_name_id": "Sistem Pakar",
     "course_name_en": "Expert Systems",
     "sks": 3,
-    "type": "Pilihan Lab Sistem Cerdas"
+    "type": "Pilihan Lab Sistem Cerdas",
+    "semesters": [6]
   },
   {
     "course_code": "MII21-3406",

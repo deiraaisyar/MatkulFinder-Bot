@@ -3,26 +3,33 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 from dotenv import load_dotenv
-from telegram import Update
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (Application, CommandHandler, MessageHandler, ContextTypes, ConversationHandler, filters,)
 load_dotenv()
 
 # Add parent directory to path to import course_recommender
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from model.course_recommender import CourseRecommender
+from model.smart_course_planner import CoursePlanner
 
 # Conversation states
 (
     ASKING_NAME,
+    ASKING_FEATURE,
     ASKING_COURSES_TAKEN,
     ASKING_CURRENT_SEMESTER,
     ASKING_INTERESTS,
     ASKING_CAREER,
     ASKING_SKS,
-) = range(6)
+    ASKING_PLANNER_CAPS,
+) = range(8)
 
 # Initialize recommender
 recommender = CourseRecommender(
+    courses_path="data/cs_courses.json",
+    prereq_path="data/prerequisite_rules.json",
+)
+planner = CoursePlanner(
     courses_path="data/cs_courses.json",
     prereq_path="data/prerequisite_rules.json",
 )
@@ -42,11 +49,29 @@ async def receive_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     user_name = update.message.text.strip()
     context.user_data["name"] = user_name
 
+    keyboard = [["Course Recommender"], ["Smart Course Planner"]]
     await update.message.reply_text(
         f"Nice to meet you, {user_name}! 😊\n\n"
-        f"Now, {user_name}, please list the courses you have already taken "
+        f"What would you like to use?",
+        reply_markup=ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True),
+    )
+    return ASKING_FEATURE
+
+async def receive_feature_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Store feature choice and ask for courses taken."""
+    choice = (update.message.text or "").strip().lower()
+    if "planner" in choice:
+        context.user_data["feature"] = "planner"
+    else:
+        # default to recommender for unknown input
+        context.user_data["feature"] = "recommender"
+
+    user_name = context.user_data.get("name", "")
+    await update.message.reply_text(
+        f"Great! Now, {user_name}, please list the courses you have already taken "
         f"using their course codes (separated by commas).\n\n"
-        f"Example: MII21-1201, MII21-1203, MII21-2401"
+        f"Example: MII21-1201, MII21-1203, MII21-2401",
+        reply_markup=ReplyKeyboardRemove(),
     )
     return ASKING_COURSES_TAKEN
 
@@ -128,13 +153,88 @@ async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     career = update.message.text.strip()
 
     context.user_data["target_career"] = career
+    # Branch based on chosen feature
+    if context.user_data.get("feature") == "planner":
+        await update.message.reply_text(
+            f"Perfect, {user_name}! 💼\n\n"
+            f"Enter per-semester SKS caps for the upcoming semesters (comma-separated).\n"
+            f"These will apply from your next semester onward up to semester 7.\n\n"
+            f"Example: 6, 12, 14, 7\n"
+            f"Leave blank to use defaults (20 SKS per semester)."
+        )
+        return ASKING_PLANNER_CAPS
+    else:
+        await update.message.reply_text(
+            f"Perfect, {user_name}! 💼\n\n"
+            f"How many SKS (credits) would you like to take?\n\n"
+            f"Example: 2, 3, 4"
+        )
+        return ASKING_SKS
+
+async def receive_planner_caps(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Collect planner caps (optionally blank), run planner, and end conversation."""
+    caps_text = (update.message.text or "").strip()
+
+    # Gather user data
+    name = context.user_data.get("name", "You")
+    courses_taken = context.user_data.get("courses_taken", [])
+    current_semester = context.user_data.get("current_semester")
+    interests = context.user_data.get("interests", [])
+    target_career = context.user_data.get("target_career")
 
     await update.message.reply_text(
-        f"Perfect, {user_name}! 💼\n\n"
-        f"How many SKS (credits) would you like to take?\n\n"
-        f"Example: 2, 3, 4"
+        f"Thanks, {name}! 🧠\n\n"
+        f"I'm generating your smart multi-semester elective plan..."
     )
-    return ASKING_SKS
+
+    try:
+        plan = planner.plan_until_graduation(
+            name=name,
+            courses_taken=courses_taken,
+            interests=interests,
+            career_goal=target_career,
+            current_semester=current_semester,
+            per_semester_caps=caps_text or None,
+        )
+
+        schedule = plan.get("schedule", [])
+        if not schedule:
+            await update.message.reply_text(
+                f"Sorry {name}, I couldn't create a plan with the given info. 😔\n\n"
+                f"Try relaxing caps or completing more prerequisites.\n\n"
+                f"Type /start to try again!"
+            )
+        else:
+            lines = [f"📅 Smart Course Plan for {name}\n"]
+            for term in schedule:
+                sem = term.get("semester")
+                courses = term.get("courses", [])
+                sks = term.get("sks", 0)
+                course_list = []
+                for c in courses:
+                    code = c.get("course_code", "N/A")
+                    title = c.get("course_name_id", c.get("course_name_en", ""))
+                    try:
+                        c_sks = int(c.get("sks") or 0)
+                    except Exception:
+                        c_sks = 0
+                    course_list.append(f"{code} ({c_sks}) - {title}")
+                if course_list:
+                    lines.append(f"Semester {sem}:\n- " + "\n- ".join(course_list) + f"\n(SKS: {sks})\n")
+                else:
+                    lines.append(f"Semester {sem}: [No electives scheduled]\n(SKS: {sks})\n")
+
+            lines.append("Type /start to plan again or get recommendations!")
+            await update.message.reply_text("\n".join(lines))
+
+    except Exception as e:
+        await update.message.reply_text(
+            f"Sorry {name}, an error occurred while planning: {str(e)}\n\n"
+            f"Type /start to try again!"
+        )
+
+    context.user_data.clear()
+    return ConversationHandler.END
 
 async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Store SKS preference, generate recommendations, and end conversation."""
@@ -239,6 +339,7 @@ def main() -> None:
         entry_points=[CommandHandler("start", start)],
         states={
             ASKING_NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_name)],
+            ASKING_FEATURE: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_feature_choice)],
             ASKING_COURSES_TAKEN: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, receive_courses_taken)
             ],
@@ -250,6 +351,7 @@ def main() -> None:
             ],
             ASKING_CAREER: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_career)],
             ASKING_SKS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_sks)],
+            ASKING_PLANNER_CAPS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_planner_caps)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )

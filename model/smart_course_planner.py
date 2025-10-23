@@ -1,15 +1,12 @@
 from __future__ import annotations
-
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, FrozenSet, Tuple
-
+from typing import Any, Dict, List, Optional, Set, FrozenSet, Tuple, Union
 import json
 import heapq
-# Support both package and direct-script runs
 import sys
 from pathlib import Path as _P
 sys.path.append(str(_P(__file__).resolve().parents[1]))
-from model.course_recommender import CourseRecommender  # type: ignore
+from model.course_recommender import CourseRecommender  
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 COURSES_PATH = DATA_DIR / "cs_courses.json"
@@ -40,6 +37,7 @@ class CoursePlanner:
         self.course_by_code: Dict[str, Dict[str, Any]] = {
             c.get("course_code"): c for c in self.courses if c.get("course_code")
         }
+        # Per-semester SKS caps are provided at runtime by the user (comma-separated or list)
 
     def _is_elective(self, course: Dict[str, Any]) -> bool:
         ctype = (course.get("type") or "").lower()
@@ -129,8 +127,7 @@ class CoursePlanner:
 
     # ---------- A* based full-planner (from next semester to 8) ----------
     def _candidate_courses_for_semester(self, sem: int, taken_prev: Set[str]) -> List[Dict[str, Any]]:
-        """Elective candidates offered in this semester with prereqs ok against taken_prev."""
-        out: List[Dict[str, Any]] = []
+        out = []
         for c in self.courses:
             code = c.get("course_code")
             if not code:
@@ -144,6 +141,7 @@ class CoursePlanner:
             out.append(c)
         return out
 
+
     def plan_until_graduation_astar(
         self,
         name: str,
@@ -151,7 +149,7 @@ class CoursePlanner:
         interests: List[str],
         career_goal: Optional[str],
         current_semester: int,
-        per_semester_sks_limit: int = 20,
+        per_semester_caps: Optional[Union[str, List[int]]] = None,
         top_candidates: int = 15,
         max_expansions: int = 20000,
     ) -> Dict[str, Any]:
@@ -168,16 +166,40 @@ class CoursePlanner:
           - add one eligible course to current semester (respect SKS limit)
           - advance to next semester (sem += 1), flushing planned_cur into planned_prev
 
-        Goal: sem == 9 (passed semester 8)
+        Goal: sem == 8 (passed semester 7)
         Cost: sum over steps of (C - score(course)) for adds, with C=200.
         Heuristic: 0 (admissible, keeps algorithm correct)
         """
         start_sem = int(current_semester) + 1
+        # Build per-semester SKS caps mapping from user-provided sequence, starting at start_sem
+        caps_map: Dict[int, int] = {}
+        caps_list: List[int] = []
+        if isinstance(per_semester_caps, str):
+            raw = [p.strip() for p in per_semester_caps.split(",")]
+            for p in raw:
+                try:
+                    n = int(p)
+                    if n > 0:
+                        caps_list.append(n)
+                except Exception:
+                    continue
+        elif isinstance(per_semester_caps, (list, tuple)):
+            for p in per_semester_caps:
+                try:
+                    n = int(p)
+                    if n > 0:
+                        caps_list.append(n)
+                except Exception:
+                    continue
+        # Assign sequentially to semesters start_sem..7
+        for idx, sem in enumerate(range(start_sem, 8)):
+            if idx < len(caps_list):
+                caps_map[sem] = caps_list[idx]
         start_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]] = (start_sem, 0, frozenset(), frozenset())
 
         def goal(state: Tuple[int, int, FrozenSet[str], FrozenSet[str]]) -> bool:
             sem, _used, _prev, _cur = state
-            return sem >= 9
+            return sem >= 8
 
         def heuristic(_state: Tuple[int, int, FrozenSet[str], FrozenSet[str]]) -> int:
             return 0
@@ -191,7 +213,7 @@ class CoursePlanner:
 
         expansions = 0
         ADVANCE_BASE = 1000  # per-semester baseline cost; reduced by semester 'fit'
-        SKS_BONUS_PER_SKS = 25  # additional reduction per SKS to encourage filling credits even if score is low
+        SKS_BONUS_PER_SKS = 60  # stronger incentive to fill SKS, enabling later semesters to be used
 
         while open_heap and expansions < max_expansions:
             _, state = heapq.heappop(open_heap)
@@ -217,7 +239,8 @@ class CoursePlanner:
                     sks = int(c.get("sks") or 0)
                 except Exception:
                     sks = 0
-                if sks <= 0 or used + sks > per_semester_sks_limit:
+                cap = caps_map.get(sem, 20)
+                if sks <= 0 or used + sks > cap:
                     continue
                 code = c.get("course_code")
                 if not code:
@@ -264,8 +287,8 @@ class CoursePlanner:
                 f = tentative_g + heuristic(next_state)
                 heapq.heappush(open_heap, (f, next_state))
 
-        # pick best goal-like state: among states with sem>=9 and minimal g
-        goal_states = [(s, g) for s, g in g_cost.items() if s[0] >= 9]
+        # pick best goal-like state: among states with sem>=8 and minimal g
+        goal_states = [(s, g) for s, g in g_cost.items() if s[0] >= 8]
         if goal_states:
             best_state = min(goal_states, key=lambda x: x[1])[0]
         else:
@@ -283,12 +306,12 @@ class CoursePlanner:
         actions.reverse()
 
         # Build schedule map from actions
-        schedule_map: Dict[int, List[Dict[str, Any]]] = {s: [] for s in range(start_sem, 9)}
+        schedule_map: Dict[int, List[Dict[str, Any]]] = {s: [] for s in range(start_sem, 8)}
         chosen_codes: Set[str] = set()
         for typ, code, sem_at in actions:
             if typ != "add" or code is None:
                 continue
-            if sem_at < start_sem or sem_at > 8:
+            if sem_at < start_sem or sem_at > 7:
                 continue
             if code in chosen_codes:
                 continue
@@ -300,7 +323,7 @@ class CoursePlanner:
 
         # Compose final schedule array
         schedule: List[Dict[str, Any]] = []
-        for sem in range(start_sem, 9):
+        for sem in range(start_sem, 8):
             courses = schedule_map.get(sem, [])
             total_sks = 0
             for c in courses:
@@ -323,7 +346,7 @@ class CoursePlanner:
         interests: List[str],
         career_goal: Optional[str],
         current_semester: int,
-        per_semester_sks_limit: int = 20,
+        per_semester_caps: Optional[Union[str, List[int]]] = None,
     ) -> Dict[str, Any]:
         """Default to A* planner for full plan until semester 8."""
         return self.plan_until_graduation_astar(
@@ -332,22 +355,5 @@ class CoursePlanner:
             interests=interests,
             career_goal=career_goal,
             current_semester=current_semester,
-            per_semester_sks_limit=per_semester_sks_limit,
+            per_semester_caps=per_semester_caps,
         )
-
-if __name__ == "__main__":
-    # Example usage (adjust as needed)
-    planner = CoursePlanner()
-    plan = planner.plan_until_graduation(
-        name="Deira",
-        courses_taken=["MII21-1201", "MII21-1203", "MII21-2401", "MII21-1002"],
-        interests=["ai", "machine learning"],
-        career_goal="data scientist",
-        current_semester=3,
-        per_semester_sks_limit=20,
-    )
-    print("Recommended Elective Path:")
-    for item in plan["schedule"]:
-        sem = item["semester"]
-        names = [c.get("course_name_id") for c in item["courses"]]
-        print(f"Semester {sem}: {names} (SKS: {item['sks']})")
