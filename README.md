@@ -121,8 +121,6 @@ MatkulFinder-Bot/
 ├── model/
 │   ├── course_recommender.py
 │   └── smart_course_planner.py
-├── scripts/
-│   └── test_smart_course_planner.py
 ├── telegram/
 │   └── matkulfinder_bot.py
 ├── visualize_astar.ipynb
