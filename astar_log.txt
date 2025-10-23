@@ -1,0 +1,251 @@
+
+=== 📘 Semester 4 ===
+
+🔹 Running A* from MII21-2205 → MII21-2205
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2205
+✅ MII21-2205 | Score=12.00, Depth=0, Cost=0.0833
+
+🔹 Running A* from MII21-1002 → MII21-2404
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1002
+   MII21-2401  120000.00000.0000    120000.0000
+   MII21-2202  120000.00000.0000    120000.0000
+   MII21-2404  0.0400    0.0000    0.0400    
+→ Expanding node: MII21-2404
+✅ MII21-2404 | Score=30.00, Depth=1, Cost=0.0400
+
+🔹 Running A* from MII21-2401 → MII21-2405
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2401
+   MII21-2402  0.0560    1.0000    1.0560    
+   MII21-2410  0.0467    1.0000    1.0467    
+   MII21-2405  0.0533    0.0000    0.0533    
+   MII21-3403  0.0467    1.0000    1.0467    
+   MII21-3405  0.0467    1.0000    1.0467    
+   MII21-3407  0.0467    1.0000    1.0467    
+→ Expanding node: MII21-2405
+✅ MII21-2405 | Score=30.00, Depth=3, Cost=0.0533
+
+🔹 Running A* from MII21-2402 → MII21-2405
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2402
+   MII21-3401  160000.00000.0000    160000.0000
+   MII21-2206  0.1333    0.0000    0.1333    
+   MII21-2405  0.0533    0.0000    0.0533    
+   MII21-3404  0.0533    0.0000    0.0533    
+   MII21-3508  0.1000    0.0000    0.1000    
+→ Expanding node: MII21-2405
+✅ MII21-2405 | Score=30.00, Depth=3, Cost=0.0533
+
+🔹 Running A* from MII21-1203 → MII21-3512
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1203
+   MII21-1204  0.1400    0.0000    0.1400    
+   MII21-1602  140000.00000.0000    140000.0000
+   MII21-2201  140000.00000.0000    140000.0000
+   MII21-2504  140000.00000.0000    140000.0000
+   MII21-2204  0.1167    0.0000    0.1167    
+   MII21-3402  0.0467    0.0000    0.0467    
+   MII21-2505  0.0875    0.0000    0.0875    
+   MII21-3512  0.0875    0.0000    0.0875    
+   MII21-3511  0.0875    0.0000    0.0875    
+→ Expanding node: MII21-3402
+→ Expanding node: MII21-2505
+→ Expanding node: MII21-3511
+→ Expanding node: MII21-3512
+✅ MII21-3512 | Score=16.00, Depth=2, Cost=0.0875
+
+🔹 Running A* from MII21-2608 → MII21-2608
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2608
+✅ MII21-2608 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-1602 → MII21-2611
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1602
+   MII21-2611  160000.00000.0000    160000.0000
+→ Expanding node: MII21-2611
+✅ MII21-2611 | Score=0.00, Depth=3, Cost=160000.0000
+
+📍 Selected course for semester 4: MII21-2404 - Fuzzy Logic
+
+=== 📘 Semester 5 ===
+
+🔹 Running A* from MII21-3208 → MII21-3208
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3208
+✅ MII21-3208 | Score=12.00, Depth=0, Cost=0.0833
+
+🔹 Running A* from MII21-3204 → MII21-3204
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3204
+✅ MII21-3204 | Score=12.00, Depth=0, Cost=0.0833
+
+🔹 Running A* from MII21-2401 → MII21-3403
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2401
+   MII21-2402  0.0560    0.0000    0.0560    
+   MII21-2410  0.0467    0.0000    0.0467    
+   MII21-2405  0.0533    1.0000    1.0533    
+   MII21-3403  0.0467    0.0000    0.0467    
+   MII21-3405  0.0467    0.0000    0.0467    
+   MII21-3407  0.0467    0.0000    0.0467    
+→ Expanding node: MII21-2410
+→ Expanding node: MII21-3403
+✅ MII21-3403 | Score=30.00, Depth=2, Cost=0.0467
+
+🔹 Running A* from MII21-3502 → MII21-3502
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3502
+✅ MII21-3502 | Score=16.00, Depth=0, Cost=0.0625
+
+🔹 Running A* from MII21-3510 → MII21-3510
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3510
+✅ MII21-3510 | Score=16.00, Depth=0, Cost=0.0625
+
+🔹 Running A* from MII21-2605 → MII21-2605
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2605
+✅ MII21-2605 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-2606 → MII21-2606
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2606
+✅ MII21-2606 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-3603 → MII21-3603
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3603
+✅ MII21-3603 | Score=0.00, Depth=0, Cost=100000.0000
+
+📍 Selected course for semester 5: MII21-3403 - Bioinformatics
+
+=== 📘 Semester 6 ===
+
+🔹 Running A* from MII21-2202 → MII21-3207
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2202
+   MII21-3207  0.1167    0.0000    0.1167    
+→ Expanding node: MII21-3207
+✅ MII21-3207 | Score=12.00, Depth=2, Cost=0.1167
+
+🔹 Running A* from MII21-2401 → MII21-3405
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2401
+   MII21-2402  0.0560    0.0000    0.0560    
+   MII21-2410  0.0467    0.0000    0.0467    
+   MII21-2405  0.0533    1.0000    1.0533    
+   MII21-3403  0.0467    0.0000    0.0467    
+   MII21-3405  0.0467    0.0000    0.0467    
+   MII21-3407  0.0467    0.0000    0.0467    
+→ Expanding node: MII21-2410
+→ Expanding node: MII21-3403
+→ Expanding node: MII21-3405
+✅ MII21-3405 | Score=30.00, Depth=2, Cost=0.0467
+
+🔹 Running A* from MII21-1201 → MII21-3406
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1201
+   MII21-1203  0.1200    0.0000    0.1200    
+   MII21-3406  0.0400    0.0000    0.0400    
+→ Expanding node: MII21-3406
+✅ MII21-3406 | Score=30.00, Depth=1, Cost=0.0400
+
+🔹 Running A* from MII21-2401 → MII21-3407
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2401
+   MII21-2402  0.0560    0.0000    0.0560    
+   MII21-2410  0.0467    0.0000    0.0467    
+   MII21-2405  0.0533    1.0000    1.0533    
+   MII21-3403  0.0467    0.0000    0.0467    
+   MII21-3405  0.0467    0.0000    0.0467    
+   MII21-3407  0.0467    0.0000    0.0467    
+→ Expanding node: MII21-2410
+→ Expanding node: MII21-3403
+→ Expanding node: MII21-3405
+→ Expanding node: MII21-3407
+✅ MII21-3407 | Score=30.00, Depth=2, Cost=0.0467
+
+🔹 Running A* from MII21-2503 → MII21-3505
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2503
+   MII21-2504  140000.00001.0000    140001.0000
+   MII21-2506  0.0875    1.0000    1.0875    
+   MII21-3504  0.0750    0.0000    0.0750    
+   MII21-3505  0.0750    0.0000    0.0750    
+   MII21-3506  0.0750    0.0000    0.0750    
+   MII21-3509  0.0750    0.0000    0.0750    
+→ Expanding node: MII21-3504
+→ Expanding node: MII21-3505
+✅ MII21-3505 | Score=16.00, Depth=1, Cost=0.0750
+
+🔹 Running A* from MII21-2503 → MII21-3506
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2503
+   MII21-2504  140000.00001.0000    140001.0000
+   MII21-2506  0.0875    1.0000    1.0875    
+   MII21-3504  0.0750    0.0000    0.0750    
+   MII21-3505  0.0750    0.0000    0.0750    
+   MII21-3506  0.0750    0.0000    0.0750    
+   MII21-3509  0.0750    0.0000    0.0750    
+→ Expanding node: MII21-3504
+→ Expanding node: MII21-3505
+→ Expanding node: MII21-3506
+✅ MII21-3506 | Score=16.00, Depth=1, Cost=0.0750
+
+🔹 Running A* from MII21-1203 → MII21-3511
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1203
+   MII21-1204  0.1400    0.0000    0.1400    
+   MII21-1602  140000.00000.0000    140000.0000
+   MII21-2201  140000.00000.0000    140000.0000
+   MII21-2504  140000.00000.0000    140000.0000
+   MII21-2204  0.1167    0.0000    0.1167    
+   MII21-3402  0.0467    0.0000    0.0467    
+   MII21-2505  0.0875    0.0000    0.0875    
+   MII21-3512  0.0875    0.0000    0.0875    
+   MII21-3511  0.0875    0.0000    0.0875    
+→ Expanding node: MII21-3402
+→ Expanding node: MII21-2505
+→ Expanding node: MII21-3511
+✅ MII21-3511 | Score=16.00, Depth=2, Cost=0.0875
+
+🔹 Running A* from MII21-2608 → MII21-2608
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2608
+✅ MII21-2608 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-1602 → MII21-2611
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-1602
+   MII21-2611  160000.00000.0000    160000.0000
+→ Expanding node: MII21-2611
+✅ MII21-2611 | Score=0.00, Depth=3, Cost=160000.0000
+
+📍 Selected course for semester 6: MII21-3406 - Decision Support Systems
+
+=== 📘 Semester 7 ===
+
+🔹 Running A* from MII21-3204 → MII21-3204
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3204
+✅ MII21-3204 | Score=12.00, Depth=0, Cost=0.0833
+
+🔹 Running A* from MII21-2605 → MII21-2605
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2605
+✅ MII21-2605 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-2606 → MII21-2606
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-2606
+✅ MII21-2606 | Score=0.00, Depth=0, Cost=100000.0000
+
+🔹 Running A* from MII21-3603 → MII21-3603
+Node      g(n)      h(n)      f(n)      
+→ Expanding node: MII21-3603
+✅ MII21-3603 | Score=0.00, Depth=0, Cost=100000.0000
+
+📍 Selected course for semester 7: MII21-3204 - Research Trends in Algorithm and Computation
