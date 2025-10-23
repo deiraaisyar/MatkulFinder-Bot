@@ -1,227 +1,138 @@
 # MatkulFinder Bot 🤖
 
-An intelligent course recommendation system with a conversational Telegram bot interface. This bot helps computer science students find the best elective courses based on their interests, career goals, completed courses, and current semester.
+An intelligent course recommendation and planning bot for CS students. It provides two features: a knowledge-based Course Recommender and an A*-driven Smart Course Planner, accessible via Telegram.
 
 ## Features ✨
 
-- **Smart Course Recommendations**: Multi-factor scoring system considering:
-  - Prerequisites and corequisites
-  - Student interests
-  - Career goals with lab preferences
-  - SKS (credit) requirements
-  - Semester progression
-  - Lab category matching (Algorithms, Software Engineering, AI, Computer Systems)
+1) Course Recommender (knowledge-based)
+- Ranks elective courses for your next semester using keyword matches and lab preferences from the knowledge base.
+- Considers interests, target career, semester offering, and prerequisites.
 
-- **Semester-Aware**: Automatically recommends courses for the next semester based on current semester
-  - Supports numeric semesters (1-8)
-  - Supports Indonesian semester terms (gasal/genap)
+2) Smart Course Planner (knowledge-based + A*)
+- Builds a multi-semester plan choosing exactly one elective per semester.
+- Uses knowledge-based scoring to weight edges, then A* to pick the lowest path-cost elective each term.
+- Constraints: elective-only, offered-in-semester, prerequisites satisfied.
 
-- **Career-Focused**: Maps career goals to relevant lab categories:
-  - Frontend/Backend/Full-stack → Software Engineering & Algorithms
-  - Data Scientist/ML Engineer → AI & Software Engineering
-  - DevOps/System Admin → Computer Systems & Software Engineering
-  - And many more career paths
+## Knowledge Base 📚
 
-- **Conversational Telegram Interface**: Step-by-step guided conversation to gather all necessary information
+- `data/cs_courses.json` — Master catalog of courses:
+  - Course Code, Name, SKS, Lab Category, Description Keywords, Semesters Offered
+- `data/prerequisite_rules.json` — Map of course → prerequisites (with is_corequisite flags)
+- `data/career_keywords.json` — Keywords per career for relevance matching
+- `data/lab_preferences.json` — Ordered lab preferences per career (e.g., ["ai", "algkom", "rpld", "skj"]) 
 
-## Setup Instructions 🚀
+## How it works (short) 🧠
 
-### 1. Install Dependencies
+- Scoring: interest hits (+15 each), career relevance (+10), lab preference weights (20/12/6/3), etc.
+- Planner graph edge cost: lower cost for higher-scoring, relevant courses; A* finds best prerequisite-aware path to each candidate.
 
+## Setup (local) 🚀
+
+1) Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Create Telegram Bot
+2) Create a Telegram bot and token
+- Talk to @BotFather → /newbot → copy the token
 
-1. Open Telegram and search for [@BotFather](https://t.me/botfather)
-2. Send `/newbot` command
-3. Follow the instructions to create your bot
-4. Copy the bot token you receive
-
-### 3. Configure Environment
-
-Create a `.env` file in the project root:
-
+3) Set environment and run
 ```bash
-cp .env.example .env
-```
-
-Edit `.env` and add your bot token:
-
-```
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
-```
-
-### 4. Run the Bot
-
-```bash
+echo "TELEGRAM_BOT_TOKEN=<YOUR_TOKEN>" > .env
 python telegram/matkulfinder_bot.py
 ```
-
 You should see:
 ```
 🤖 MatkulFinder Bot is running...
 Press Ctrl+C to stop.
 ```
 
-## Using the Bot 💬
+## Docker (local) �
 
-1. Open Telegram and find your bot
-2. Send `/start` to begin
-3. Follow the conversation:
-   - Enter your name
-   - List completed courses (e.g., `MII21-1201, MII21-1203`)
-   - Enter current semester (e.g., `3`, `gasal`, `genap`)
-   - List your interests (e.g., `machine learning, web development`)
-   - Enter career goal (e.g., `data scientist`, `frontend developer`)
-   - Enter desired SKS (e.g., `2`, `3`)
-4. Receive personalized course recommendations!
-
-### Example Conversation
-
+Build and run (long polling; no ports exposed):
+```bash
+docker build -t matkulfinder-bot:latest .
+docker run -d --name matkulfinder-bot \
+  --restart=always \
+  -e TELEGRAM_BOT_TOKEN=<YOUR_TOKEN> \
+  matkulfinder-bot:latest
 ```
-User: /start
-Bot: Welcome to MatkulFinder Bot! 🎓
-     I'm here to help you find the perfect elective courses.
-     Let's start! What's your name?
 
-User: Alice
-Bot: Nice to meet you, Alice! 😊
-     Now, Alice, please list the courses you have already taken...
+## Deploy on Google Compute Engine (VM) ☁️
 
-User: MII21-1201, MII21-1203, MII21-2401
-Bot: Got it, Alice! ✅
-     What semester are you currently in?
+1) Create VM (Ubuntu) and install Docker
+```bash
+gcloud compute instances create matkul-bot \
+  --machine-type=e2-micro \
+  --image-family=ubuntu-2204-lts \
+  --image-project=ubuntu-os-cloud \
+  --zone=asia-southeast2-a
 
-User: 3
-Bot: Thanks, Alice! 👍
-     What topics are you interested in?
-
-User: machine learning, ai, data science
-Bot: Great, Alice! 🎯
-     What's your target career?
-
-User: data scientist
-Bot: Perfect, Alice! 💼
-     How many SKS (credits) would you like to take?
-
-User: 3
-Bot: Thank you, Alice! 🚀
-     I'm processing your recommendations...
-     
-Bot: 📚 Course Recommendations for Alice
-     
-     1. MII21-3401 - Pembelajaran Mesin
-        Machine Learning
-        SKS: 3 | Score: 85
-        Reasons:
-        • Interest match: machine learning
-        • Career relevant: data scientist
-        • Lab preference match: AI lab
+gcloud compute ssh matkul-bot --zone=asia-southeast2-a
+sudo apt-get update && sudo apt-get install -y docker.io
+sudo systemctl enable --now docker
 ```
+
+2) Pull code, build, and run
+```bash
+git clone https://github.com/<your-user>/MatkulFinder-Bot.git
+cd MatkulFinder-Bot
+docker build -t matkulfinder-bot:latest .
+docker run -d --name matkulfinder-bot \
+  --restart=always \
+  -e TELEGRAM_BOT_TOKEN=<YOUR_TOKEN> \
+  matkulfinder-bot:latest
+```
+
+Tip: Ctrl+C in `docker logs -f` only stops viewing logs; the container keeps running. Use `docker stop/start` to manage it.
+
+## Using the Bot �
+
+Flow:
+- Choose feature: Course Recommender or Smart Course Planner
+- Provide: courses taken, current semester, interests, target career
+- Recommender: returns top-N electives with brief reasons
+- Planner: returns one elective per semester with code/name/SKS
+
+## Dev utilities 🧪
+
+- Test the planner logic:
+```bash
+python scripts/test_smart_course_planner.py
+```
+
+- A* visualization (optional): open `visualize_astar.ipynb` and run the cells.
+
+## Troubleshooting 🔍
+
+- Invalid token: ensure you passed a real token from @BotFather (not a placeholder). Re-run container with `-e TELEGRAM_BOT_TOKEN=<YOUR_TOKEN>`.
+- No candidates in a semester: you may be missing prerequisites or course isn’t offered that term.
+- Dependencies: `pip install -r requirements.txt` (Python 3.10+ recommended).
 
 ## Project Structure 📁
 
 ```
 MatkulFinder-Bot/
 ├── data/
-│   ├── cs_courses.json          # All CS courses data
-│   ├── prerequisite_rules.json   # Course prerequisites
-│   └── elective_courses.json     # Scraped elective courses
+│   ├── cs_courses.json
+│   ├── prerequisite_rules.json
+│   ├── career_keywords.json
+│   └── lab_preferences.json
 ├── model/
-│   ├── course_recommender.py     # Recommendation engine
-│   └── smart_course_planner.py   # (Optional) Planning utilities
+│   ├── course_recommender.py
+│   └── smart_course_planner.py
+├── scripts/
+│   └── test_smart_course_planner.py
 ├── telegram/
-│   └── matkulfinder_bot.py       # Telegram bot interface
-├── web/
-│   ├── backend/                  # (Optional) Web API
-│   └── frontend/                 # (Optional) Web UI
-├── .env.example                  # Environment template
-├── .gitignore                    # Git ignore rules
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
+│   └── matkulfinder_bot.py
+├── visualize_astar.ipynb
+├── Dockerfile
+├── requirements.txt
+└── README.md
 ```
-
-## Course Recommender API 🔧
-
-You can also use the recommender programmatically:
-
-```python
-from model.course_recommender import CourseRecommender
-
-recommender = CourseRecommender()
-
-recommendations = recommender.recommend_courses(
-    courses_taken=["MII21-1201", "MII21-1203"],
-    interests=["machine learning", "ai"],
-    target_career="data scientist",
-    sks_preference=3,
-    current_semester="3",
-    sks_must_match=True,  # Strict SKS filtering
-    top_n=5
-)
-
-for rec in recommendations:
-    print(f"{rec['course']['code']}: {rec['score']}")
-```
-
-## Scoring System 📊
-
-The recommender uses a weighted scoring system:
-
-| Factor | Points | Notes |
-|--------|--------|-------|
-| Prerequisites satisfied | +50 | Must have all prerequisites |
-| Corequisites present | +20 | +10 if already taken |
-| Interest match | +15 each | Matches course keywords |
-| Career relevance | +10 | Matches career keywords |
-| SKS match | +5 | Matches desired credit hours |
-| Semester match | +15 | Available in target semester |
-| Lab preference | +20/+12/+6/+3 | Priority 1/2/3/4 for career |
-
-## Career-Lab Mapping 🎯
-
-The system maps career goals to relevant lab categories:
-
-- **Frontend/Backend/Full-stack Developer** → Software Engineering, Algorithms
-- **Data Scientist/ML Engineer** → AI, Software Engineering, Algorithms
-- **DevOps/System Admin** → Computer Systems, Software Engineering
-- **Mobile Developer** → Software Engineering, Algorithms
-- **AI Researcher** → AI, Algorithms
-- **Security Specialist** → Computer Systems, Software Engineering
-- **And more...**
-
-## Commands 🎮
-
-- `/start` - Start a new recommendation session
-- `/cancel` - Cancel the current conversation
-
-## Troubleshooting 🔍
-
-### Bot doesn't respond
-- Check that the bot token in `.env` is correct
-- Verify the bot is running (check terminal output)
-- Make sure you've installed all dependencies
-
-### No recommendations found
-- Check if you've met the prerequisites for available courses
-- Try adjusting SKS preference (use 3 instead of 2)
-- Verify your current semester is correct
-
-### Import errors
-- Run `pip install -r requirements.txt` again
-- Ensure you're using Python 3.7+
-
-## Contributing 🤝
-
-Feel free to submit issues or pull requests to improve the bot!
 
 ## License 📄
 
-This project is for educational purposes.
+For educational purposes.
 
----
-
-Made with ❤️ for UGM Computer Science students
-AI project CSA - Group 2
+— Made with ❤️ for UGM CS students

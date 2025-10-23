@@ -34,11 +34,6 @@ def prereq_ok(code, taken, rules):
     prereqs = [p.get("code") for p in entry.get("prerequisites", []) if not p.get("is_corequisite")]
     return set(prereqs).issubset(taken)
 
-
-# ============================================================
-# ======== Scoring and Matching Logic ========================
-# ============================================================
-
 def matches_interest(course, interests):
     """Count how many user interests appear in the course name or topics."""
     text = " ".join([

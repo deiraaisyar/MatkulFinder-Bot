@@ -220,8 +220,6 @@ async def receive_career(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         )
         return ASKING_SKS
 
-## receive_planner_caps removed; planner runs immediately after career is provided
-
 async def receive_sks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Store SKS preference, generate recommendations, and end conversation."""
     sks_text = update.message.text.strip()
@@ -341,9 +339,6 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
-
-    print("🤖 MatkulFinder Bot is running...")
-    print("Press Ctrl+C to stop.")
     application.run_polling()
 
 if __name__ == "__main__":
